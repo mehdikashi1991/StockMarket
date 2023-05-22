@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="NServiceBus" Version="8.0.3" />
+    <PackageReference Include="NServiceBus.Extensions.Hosting" Version="2.0.0" />
+    <PackageReference Include="NServiceBus.Extensions.Logging" Version="2.0.0" />
+    <PackageReference Include="NServiceBus.Heartbeat" Version="4.0.0" />
+    <PackageReference Include="NServiceBus.Metrics.ServiceControl" Version="4.0.0" />
+    <PackageReference Include="NServiceBus.RabbitMQ" Version="8.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Application\Application.csproj" />
+    <ProjectReference Include="..\Controllers\Controllers.csproj" />
+    <ProjectReference Include="..\FacadeProvider\FacadeProvider.csproj" />
+    <ProjectReference Include="..\Repository\Infrastructure.csproj" />
+    <ProjectReference Include="..\TradeMatchingEngine\Domain.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,14 @@
+﻿using Domain;
+
+namespace Application.Contract.Commands
+{
+    public class AddOrderCommand : ICommand
+    {
+        public int Price { get; set; }
+        public int Amount { get; set; }
+        public Side Side { get; set; }
+        public DateTime? ExpDate { get; set; }
+        public bool IsFillAndKill { get; set; }
+        public long? orderParentId { get; set; }
+    }
+}

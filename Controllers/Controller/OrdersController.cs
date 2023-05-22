@@ -11,19 +11,19 @@ namespace EndPoints.Controller
     public class OrdersController : ControllerBase
     {
 
-        private readonly IOrderQueryFacade _orderQueryFacade;   
+        private readonly IOrderQueryFacade _orderQueryFacade;
         private readonly IOrderCommandFacade orderFacade;
 
         public OrdersController
             (
             IOrderCommandFacade orderFacade,
             IOrderQueryFacade orderQueryFacade
-          
+
             )
         {
             this.orderFacade = orderFacade;
-            _orderQueryFacade= orderQueryFacade;
-            
+            _orderQueryFacade = orderQueryFacade;
+
         }
 
         /// <summary>
@@ -42,12 +42,13 @@ namespace EndPoints.Controller
                 Price = orderVM.Price,
                 IsFillAndKill = (bool)orderVM.IsFillAndKill,
             };
-          
+
             return CreatedAtAction(
                "ProcessOrder",
                 "Orders",
                 null,
-                await orderFacade.ProcessOrder(command));
+               OutputGenerator.ProcessOrderLink(
+                   await orderFacade.ProcessOrder(command)));
         }
 
         /// <summary>

@@ -74,7 +74,7 @@ namespace EndPoints.Controller
             {
                 return AcceptedAtAction("ModifyOrder",
                               "Orders",
-                null, result.OrderId);
+                null, OutputGenerator.ModifyOrderLink(result));
             }
 
             return BadRequest(modifieOrderVM);
@@ -98,7 +98,7 @@ namespace EndPoints.Controller
                     return AcceptedAtAction(
                                            "CancellOrder",
                                          "Orders",
-                                            null, result.OrderId);
+                                            null, OutputGenerator.CancelOrderLink(result));
 
                 }
 
@@ -125,7 +125,7 @@ namespace EndPoints.Controller
                 return AcceptedAtAction(
                     "CancellAllOrders",
                       "Orders",
-                        null, result.CancelledOrders);
+                        null, OutputGenerator.CancellAllOrdersLink(result));
             }
 
             return BadRequest();

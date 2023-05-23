@@ -135,7 +135,8 @@ namespace EndPoints.Controller
         [HttpGet("{orderId}")]
         public async Task<IActionResult> GetOrder(long orderId)
         {
-            return Ok(await _orderQueryFacade.Get(orderId));
+            var result = await _orderQueryFacade.Get(orderId);
+            return AcceptedAtAction("GetOrder", "Orders", OutputGenerator.GetOrderLink(result));
         }
     }
 }

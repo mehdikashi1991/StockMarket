@@ -79,7 +79,7 @@ namespace Controllers
             return resource;
         }
 
-        public static Resource GetOrderLink(ProcessedOrder order)
+        public static Resource GetOrderLink(IOrder order)
         {
             var builder = new ResourceBuilder();
 
@@ -87,9 +87,22 @@ namespace Controllers
                 .WithState(order)
                 .AddSelfLink().WithLinkItem("/Orders")
                 .AddLink("find").WithLinkItem("/Orders/{id}", null, true)
-                .AddLink("cancel").WithLinkItem($"/Orders/{order.OrderId}", "cancelOrder", null, "DELETE")
+                .AddLink("cancel").WithLinkItem($"/Orders/{order.Id}", "cancelOrder", null, "DELETE")
                 .AddLink("cancel").WithLinkItem($"/Orders", "cancelAllOrders", null, "DELETE")
-                .AddLink("modify").WithLinkItem($"/Orders/{order.OrderId}", "modifyOrder", null, "PUT")
+                .AddLink("modify").WithLinkItem($"/Orders/{order.Id}", "modifyOrder", null, "PUT")
+                .Build();
+
+            return resource;
+        }
+
+        public static Resource GetAllTradeLink(IEnumerable<ITrade> trade)
+        {
+            var builder = new ResourceBuilder();
+
+            var resource = builder
+                .WithState(trade)
+                .AddSelfLink().WithLinkItem("/Trades")
+                .AddLink("find").WithLinkItem("/Trades/{id}", null, true)
                 .Build();
 
             return resource;

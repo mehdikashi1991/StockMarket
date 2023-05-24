@@ -4,9 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain;
-using Domain.Orders.Repositories.Command;
 
-using Domain.UnitOfWork;
 using Xunit;
 
 namespace Test

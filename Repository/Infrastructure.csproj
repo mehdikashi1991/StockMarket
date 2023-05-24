@@ -22,7 +22,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Domain.Contract\Domain.Contract.csproj" />
-    <ProjectReference Include="..\TradeMatchingEngine\Domain.csproj" />
   </ItemGroup>
 
 </Project>

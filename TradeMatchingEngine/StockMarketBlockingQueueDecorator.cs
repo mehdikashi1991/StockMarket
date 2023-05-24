@@ -1,4 +1,7 @@
-﻿namespace Domain
+﻿using Domain.Orders.Entities;
+using Framework.Contracts;
+
+namespace Domain
 {
     public class StockMarketBlockingQueueDecorator : StockMarketMatchEngine
     {

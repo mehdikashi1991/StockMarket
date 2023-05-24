@@ -1,4 +1,6 @@
-﻿namespace Domain
+﻿using Domain.Orders.Entities;
+
+namespace Domain
 {
     public class ModifiedOrderPriorityMax : IComparer<Order>
     {

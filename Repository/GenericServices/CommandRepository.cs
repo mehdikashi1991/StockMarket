@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Domain.Orders.Repositories.Command;
+using Framework.Contracts.GenericRepositories;
 
-namespace Infrastructure.Order.QueryRepositories
+namespace Infrastructure.GenericServices
 {
     public class CommandRepository<T, TInterface> : ICommandRepository<T, TInterface> where T : class, TInterface
     {

@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Domain;
 using Xunit;
 using static Application.Tests.AddOrderCommandHandlerTests;
+using Domain.Orders.Entities;
 
 namespace Application.Tests
 {

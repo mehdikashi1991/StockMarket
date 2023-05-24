@@ -1,4 +1,4 @@
-﻿using Domain;
+﻿using Domain.Orders.Entities;
 
 namespace Application.Contract.Commands
 {

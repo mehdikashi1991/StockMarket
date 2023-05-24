@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Domain;
-using FacadeProvider;
 using Controllers;
 using Application.Contract.Commands;
+using Facade.Contract;
+using Controllers.Model;
 
 namespace EndPoints.Controller
 {
@@ -117,7 +118,7 @@ namespace EndPoints.Controller
         [HttpDelete]
         public async Task<IActionResult> CancellAllOrders()
         {
-            var result = await orderFacade.CancelAllOrders();
+            var result = await orderFacade.CancelAllOrders(null);
 
             if (result != null)
             {

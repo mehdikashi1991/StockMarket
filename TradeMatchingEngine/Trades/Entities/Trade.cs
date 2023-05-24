@@ -1,4 +1,6 @@
-﻿namespace Domain
+﻿
+
+namespace Domain.Trades.Entities
 {
     public class Trade : ITrade
     {

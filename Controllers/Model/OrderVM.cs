@@ -1,6 +1,6 @@
-﻿using Domain;
+﻿using Domain.Orders.Entities;
 
-namespace Controllers
+namespace Controllers.Model
 {
     public class OrderVM
     {

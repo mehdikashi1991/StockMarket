@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Domain
+namespace Domain.Orders.Entities
 {
 
     public class Order : IOrder
@@ -30,18 +30,6 @@ namespace Domain
 
         public int Amount { get; private set; }
 
-        public int DecreaseAmount(int amount)
-        {
-            Amount = Amount - amount;
-
-            if (Amount <= 0)
-            {
-                Amount = 0;
-            }
-
-            return Amount;
-        }
-
         public bool? IsFillAndKill { get; private set; } = false;
 
         public bool HasCompleted
@@ -58,7 +46,19 @@ namespace Domain
 
         public bool IsExpired => ExpireTime < DateTime.Now;
         public OrderStates GetOrderState() => _state;
+        public long? OrderParentId { get; private set; }
+        
+        public int DecreaseAmount(int amount)
+        {
+            Amount = Amount - amount;
 
+            if (Amount <= 0)
+            {
+                Amount = 0;
+            }
+
+            return Amount;
+        }
         public void SetStateCancelled()
         {
             _state = OrderStates.Cancell;
@@ -69,10 +69,8 @@ namespace Domain
         }
         public void SetStateModified()
         {
-            _state = OrderStates.Modifie;
+            _state = OrderStates.Modified;
         }
-        public long? OrderParentId { get; private set; }
-
         public void UpdateBy(IOrder order)
         {
             Price = order.Price;

@@ -1,6 +1,6 @@
-﻿using Domain;
+﻿using Domain.Trades.Entities;
 
-namespace FacadeProvider
+namespace Facade.Contract
 {
     public interface ITradeQueryFacade
     {

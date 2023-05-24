@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Collections.Concurrent;
+using System.Net.Http;
 using System.Net.Http.Headers;
 
 namespace SpecFlowTest

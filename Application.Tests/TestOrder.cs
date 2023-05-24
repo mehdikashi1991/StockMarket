@@ -1,5 +1,5 @@
 ﻿using System;
-using Domain;
+using Domain.Orders.Entities;
 
 namespace Application.Tests
 {

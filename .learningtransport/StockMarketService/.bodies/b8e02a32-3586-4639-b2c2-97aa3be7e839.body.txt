@@ -1,0 +1,1 @@
+<?xml version="1.0"?><ModifyOrderCommandMessage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://tempuri.net/Messages"><OrderId>1</OrderId><Price>7</Price><Amount>8</Amount><ExpDate>2029-05-24T07:21:34.705Z</ExpDate></ModifyOrderCommandMessage>

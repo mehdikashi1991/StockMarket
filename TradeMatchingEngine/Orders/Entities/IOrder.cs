@@ -1,5 +1,4 @@
-﻿
-namespace Domain
+﻿namespace Domain.Orders.Entities
 {
     public interface IOrder
     {

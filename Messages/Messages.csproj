@@ -10,8 +10,4 @@
     <PackageReference Include="nservicebus" Version="8.0.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\TradeMatchingEngine\Domain.csproj" />
-  </ItemGroup>
-
 </Project>

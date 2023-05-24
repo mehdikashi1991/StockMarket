@@ -1,0 +1,15 @@
+{
+  "NServiceBus.MessageId": "21e8c5d9-be74-482f-8f9b-b00b00e951b2",
+  "NServiceBus.MessageIntent": "Send",
+  "NServiceBus.ConversationId": "381b4f9f-7a1d-49c9-988d-b00b00e951b4",
+  "NServiceBus.CorrelationId": "21e8c5d9-be74-482f-8f9b-b00b00e951b2",
+  "NServiceBus.ReplyToAddress": "ApiGateway",
+  "NServiceBus.OriginatingMachine": "DESKTOP-IVIJ3AV",
+  "NServiceBus.OriginatingEndpoint": "ApiGateway",
+  "$.diagnostics.originating.hostid": "208cbe99ccf74e302d36f62b81ec22fd",
+  "NServiceBus.ContentType": "text\/xml",
+  "NServiceBus.EnclosedMessageTypes": "Messages.AddOrderCommandMessage, Messages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+  "NServiceBus.Version": "8.0.3",
+  "NServiceBus.TimeSent": "2023-05-23 14:09:29:370086 Z",
+  "traceparent": "00-34f3aeb58595dec34c0fa1e49f34df23-5849f444a7bbec42-00"
+}

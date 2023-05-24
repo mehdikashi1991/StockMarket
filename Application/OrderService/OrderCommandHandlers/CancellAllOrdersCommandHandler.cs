@@ -1,12 +1,12 @@
-﻿using Application.Contract;
+﻿using Application.Contract.CommandHandlerContracts;
 using Application.Factories;
 using Domain;
 using Domain.Contract.Orders.Repository.Command;
 using Domain.Contract.Orders.Repository.Query;
 using Domain.Contract.Trades.Repository.Command;
 using Domain.Contract.Trades.Repository.Query;
-using Domain.Orders.Repositories.Command;
-using Domain.UnitOfWork;
+using Domain.Orders.Entities;
+using Framework.Contracts.UnitOfWork;
 
 namespace Application.OrderService.OrderCommandHandlers
 {

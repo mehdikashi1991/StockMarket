@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Domain;
-using Controllers;
-using Application.Contract.Commands;
-using Facade.Contract;
+﻿using Application.Contract.Commands;
 using Controllers.Model;
+using Facade.Contract;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace EndPoints.Controller
 {
@@ -11,30 +10,33 @@ namespace EndPoints.Controller
     [ApiController]
     public class OrdersController : ControllerBase
     {
-
-        private readonly IOrderQueryFacade _orderQueryFacade;   
+        private readonly IOrderQueryFacade _orderQueryFacade;
         private readonly IOrderCommandFacade orderFacade;
+        private readonly ILogger<OrdersController> _logger;
 
         public OrdersController
             (
             IOrderCommandFacade orderFacade,
-            IOrderQueryFacade orderQueryFacade
-          
+            IOrderQueryFacade orderQueryFacade,
+            ILogger<OrdersController> logger
+
             )
         {
             this.orderFacade = orderFacade;
-            _orderQueryFacade= orderQueryFacade;
-            
+            _orderQueryFacade = orderQueryFacade;
+            _logger = logger;
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="orderVM"></param>
         /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> ProcessOrder([FromBody] OrderVM orderVM)
         {
+            _logger.LogInformation("AddOrderCommand");
+
             var command = new AddOrderCommand()
             {
                 Amount = orderVM.Amount,
@@ -43,7 +45,7 @@ namespace EndPoints.Controller
                 Price = orderVM.Price,
                 IsFillAndKill = (bool)orderVM.IsFillAndKill,
             };
-          
+
             return CreatedAtAction(
                "ProcessOrder",
                 "Orders",
@@ -52,7 +54,7 @@ namespace EndPoints.Controller
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="modifieOrderVM"></param>
         /// <returns></returns>
@@ -99,7 +101,6 @@ namespace EndPoints.Controller
                                            "CancellOrder",
                                          "Orders",
                                             null, result.OrderId);
-
                 }
 
                 return BadRequest(orderId);
@@ -108,7 +109,6 @@ namespace EndPoints.Controller
             {
                 return BadRequest(ex.Message);
             }
-
         }
 
         /// <summary>
@@ -130,7 +130,6 @@ namespace EndPoints.Controller
 
             return BadRequest();
         }
-
 
         [HttpGet("{orderId}")]
         public async Task<IActionResult> GetOrder(long orderId)

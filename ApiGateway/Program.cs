@@ -5,7 +5,6 @@ using MessageFacadeProvider;
 using MessageNserviceBus;
 using Messages;
 using NLog;
-using NLog.Extensions.Logging;
 using NLog.Web;
 using NServiceBus.Extensions.Logging;
 
@@ -28,11 +27,10 @@ namespace ApiGateway
 
                 builder.Host.UseNServiceBus(ctx =>
                 {
-                    ILoggerFactory extensionsLoggerFactory = new NLogLoggerFactory();
-
-                    NServiceBus.Logging.ILoggerFactory nservicebusLoggerFactory = new ExtensionsLoggerFactory(loggerFactory: extensionsLoggerFactory);
-
-                    NServiceBus.Logging.LogManager.UseFactory(loggerFactory: nservicebusLoggerFactory);
+                    NServiceBus.Logging.LogManager.UseFactory(loggerFactory: new ExtensionsLoggerFactory(
+                        builder.Services.BuildServiceProvider().
+                        GetRequiredService<ILoggerFactory>())
+                        );
 
                     var endpointConfiguration = new EndpointConfiguration("ApiGateway");
                     var transport = endpointConfiguration.UseTransport<LearningTransport>();

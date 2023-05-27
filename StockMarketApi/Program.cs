@@ -3,7 +3,6 @@ using FacadeProvider.OrderFacadeProviders;
 using FacadeProvider.TradeFacadeProvider;
 using Infrastructure;
 using NLog;
-using NLog.Extensions.Logging;
 using NLog.Web;
 using NServiceBus.Extensions.Logging;
 
@@ -27,16 +26,10 @@ namespace StockMarketApi
 
                 builder.Host.UseNServiceBus(ctx =>
                 {
-                    Microsoft.Extensions.Logging.ILoggerFactory extensionsLoggerFactory = new NLogLoggerFactory();
-
-                    NServiceBus.Logging.ILoggerFactory nservicebusLoggerFactory = new ExtensionsLoggerFactory(loggerFactory: extensionsLoggerFactory);
-
-                    NServiceBus.Logging.LogManager.UseFactory(loggerFactory: nservicebusLoggerFactory);
-
-                    //NServiceBus.Logging.LogManager.UseFactory(loggerFactory: new ExtensionsLoggerFactory(
-                    //    builder.Services.BuildServiceProvider().
-                    //    GetRequiredService<ILoggerFactory>())
-                    //    );
+                    NServiceBus.Logging.LogManager.UseFactory(loggerFactory: new ExtensionsLoggerFactory(
+                        builder.Services.BuildServiceProvider().
+                        GetRequiredService<ILoggerFactory>())
+                        );
 
                     var endpointConfiguration = new EndpointConfiguration("StockMarketService");
                     var transport = endpointConfiguration.UseTransport<LearningTransport>();

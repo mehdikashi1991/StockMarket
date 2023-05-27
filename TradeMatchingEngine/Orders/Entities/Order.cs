@@ -3,7 +3,7 @@
 namespace Domain
 {
 
-    public class Order : IOrder
+    public class Order : IOrder 
     {
         private OrderStates _state;
 

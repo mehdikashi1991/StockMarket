@@ -1,22 +1,16 @@
-﻿using Application.Factories;
+﻿using Application.Contract;
+using Application.Factories;
 using Application.OrderService.OrderCommandHandlers;
+using Domain.Contract.Orders.Repository.Command;
+using Domain.Contract.Orders.Repository.Query;
+using Domain.Contract.Trades.Repository.Command;
+using Domain.Contract.Trades.Repository.Query;
+using Domain.UnitOfWork;
 using Infrastructure.Order.CommandRepositories;
 using Infrastructure.Order.QueryRepositories;
 using Infrastructure.Trade.QueryRepositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Orders.Repositories.Command;
-using Domain.UnitOfWork;
-using Domain.Contract.Orders.Repository.Command;
-using Domain.Contract.Orders.Repository.Query;
-using Domain.Contract.Trades.Repository.Command;
-using Domain.Contract.Trades.Repository.Query;
-using Application.Contract;
 
 namespace Infrastructure
 {

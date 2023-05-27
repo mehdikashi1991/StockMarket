@@ -1,6 +1,5 @@
 ﻿using Domain.Contract.Orders.Repository.Query;
 using Infrastructure.GenericServices;
-using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Order.CommandRepositories
 {

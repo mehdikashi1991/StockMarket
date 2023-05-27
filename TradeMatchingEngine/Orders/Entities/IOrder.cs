@@ -1,7 +1,9 @@
 ﻿
+using Domain.Common;
+
 namespace Domain
 {
-    public interface IOrder
+    public interface IOrder : IBaseEntity<long>
     {
         int Amount { get; }
         DateTime ExpireTime { get; }

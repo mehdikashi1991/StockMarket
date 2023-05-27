@@ -1,15 +1,11 @@
 ﻿using Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+using Domain.Common;
 
 namespace FacadeProvider
 {
     public interface IOrderQueryFacade
     {
         Task<IOrder> Get(long id);
+        //Task<PageResult<Order>> GetAllWithPaging(int page, int pageSize, int currentPage = 1, long lastId = 0);
     }
 }

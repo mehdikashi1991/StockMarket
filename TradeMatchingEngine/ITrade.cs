@@ -1,6 +1,8 @@
-﻿namespace Domain
+﻿using Domain.Common;
+
+namespace Domain
 {
-    public interface ITrade
+    public interface ITrade : IBaseEntity<long>
     {
         int Amount { get; }
         long BuyOrderId { get; }

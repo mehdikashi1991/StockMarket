@@ -35,7 +35,7 @@ namespace EndPoints.Controller
         [HttpPost]
         public async Task<IActionResult> ProcessOrder([FromBody] OrderVM orderVM)
         {
-            _logger.LogInformation("AddOrderCommand");
+            _logger.LogError("ProcessOrder");
 
             var command = new AddOrderCommand()
             {

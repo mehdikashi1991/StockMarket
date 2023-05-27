@@ -13,7 +13,7 @@ namespace MessageHandlers
     {
         private readonly IOrderQueryFacade _orderQueryFacade;
         private readonly IOrderCommandFacade orderFacade;
-        private readonly ILog _logger;
+        private static ILog log = LogManager.GetLogger<OrderCommandsHandler>();
 
         public OrderCommandsHandler
 
@@ -25,13 +25,12 @@ namespace MessageHandlers
         {
             this.orderFacade = orderFacade;
             _orderQueryFacade = orderQueryFacade;
-
-            _logger = LogManager.GetLogger<OrderCommandsHandler>();
         }
 
         public async Task Handle(AddOrderCommandMessage message, IMessageHandlerContext context)
         {
-            _logger.Info("AddOrderCommandMessageHandler");
+            log.Error("OrderCommandsHandler");
+
             var command = new Application.Contract.Commands.AddOrderCommand()
             {
                 Amount = message.Amount,

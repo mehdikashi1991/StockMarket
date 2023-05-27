@@ -5,7 +5,9 @@ using MessageFacadeProvider;
 using MessageNserviceBus;
 using Messages;
 using NLog;
+using NLog.Extensions.Logging;
 using NLog.Web;
+using NServiceBus.Extensions.Logging;
 
 namespace ApiGateway
 {
@@ -15,11 +17,11 @@ namespace ApiGateway
         {
             try
             {
+                var builder = WebApplication.CreateBuilder(args);
+
                 LogManager
                 .Setup()
                 .LoadConfigurationFromAppSettings();
-
-                var builder = WebApplication.CreateBuilder(args);
 
                 //NLog
                 builder.Logging.ClearProviders();
@@ -27,12 +29,17 @@ namespace ApiGateway
 
                 builder.Host.UseNServiceBus(ctx =>
                 {
+                    ILoggerFactory extensionsLoggerFactory = new NLogLoggerFactory();
+
+                    NServiceBus.Logging.ILoggerFactory nservicebusLoggerFactory = new ExtensionsLoggerFactory(loggerFactory: extensionsLoggerFactory);
+
+                    NServiceBus.Logging.LogManager.UseFactory(loggerFactory: nservicebusLoggerFactory);
+
                     var endpointConfiguration = new EndpointConfiguration("ApiGateway");
                     var transport = endpointConfiguration.UseTransport<LearningTransport>();
                     var routing = transport.Routing();
                     routing.RouteToEndpoint(typeof(AddOrderCommandMessage).Assembly, "StockMarketService");
-                    //builder.Services.AddLogging().BuildServiceProvider()
-                    //NServiceBus.Logging.LogManager.UseFactory();
+
                     return endpointConfiguration;
                 });
 

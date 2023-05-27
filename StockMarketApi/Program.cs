@@ -3,7 +3,9 @@ using FacadeProvider.OrderFacadeProviders;
 using FacadeProvider.TradeFacadeProvider;
 using Infrastructure;
 using NLog;
+using NLog.Extensions.Logging;
 using NLog.Web;
+using NServiceBus.Extensions.Logging;
 
 namespace StockMarketApi
 {
@@ -13,23 +15,29 @@ namespace StockMarketApi
         {
             try
             {
+                var builder = WebApplication.CreateBuilder(args);
+
                 LogManager
                 .Setup()
                 .LoadConfigurationFromAppSettings();
 
-                var builder = WebApplication.CreateBuilder(args);
+                //NLog
+                builder.Logging.ClearProviders();
+                builder.Host.UseNLog();
 
                 builder.Host.UseNServiceBus(ctx =>
                 {
+                    Microsoft.Extensions.Logging.ILoggerFactory extensionsLoggerFactory = new NLogLoggerFactory();
+
+                    NServiceBus.Logging.ILoggerFactory nservicebusLoggerFactory = new ExtensionsLoggerFactory(loggerFactory: extensionsLoggerFactory);
+
+                    NServiceBus.Logging.LogManager.UseFactory(loggerFactory: nservicebusLoggerFactory);
+
                     var endpointConfiguration = new EndpointConfiguration("StockMarketService");
                     var transport = endpointConfiguration.UseTransport<LearningTransport>();
 
                     return endpointConfiguration;
                 });
-
-                //NLog
-                builder.Logging.ClearProviders();
-                builder.Host.UseNLog();
 
                 builder.Services.DependencyHolder();
                 builder.Services.AddScoped<IOrderCommandFacade, OrderCommandFacade>();

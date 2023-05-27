@@ -17,6 +17,7 @@ namespace ApiGateway
             {
                 var endpointConfiguration = new EndpointConfiguration("ApiGateway");
                 var transport = endpointConfiguration.UseTransport<LearningTransport>();
+
                 var routing = transport.Routing();
                 routing.RouteToEndpoint(typeof(AddOrderCommandMessage).Assembly, "StockMarketService");
 

@@ -35,7 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Controllers", "Controllers\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Contract", "Domain.Contract\Domain.Contract.csproj", "{5186CCEC-F7FE-4DAB-91EC-66776E3C6902}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03Facad", "03Facad", "{3119EB20-C274-49B6-B252-EDD1FDBD45CA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03Facade", "03Facade", "{3119EB20-C274-49B6-B252-EDD1FDBD45CA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facade.Contract", "Facade.Contract\Facade.Contract.csproj", "{1ED0F137-FBA8-4552-9F22-18A89715FAE3}"
 EndProject
@@ -49,7 +49,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageHandlers", "MessageH
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockMarketApi", "StockMarketApi\StockMarketApi.csproj", "{B296D3E2-079F-4C2F-A691-F7DD2018BFF8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00Framwork", "00Framwork", "{2B8D734D-4D17-41D2-B969-CD450CCDA9D5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00Framework", "00Framework", "{2B8D734D-4D17-41D2-B969-CD450CCDA9D5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework.Contracts", "Framework.Contracts\Framework.Contracts.csproj", "{8FA06B4C-A10F-4E37-A7A6-205B189ADA4D}"
 EndProject

@@ -12,8 +12,8 @@ namespace EndPoints.Controller
     public class OrdersController : ControllerBase
     {
 
-        private readonly IOrderQueryFacade _orderQueryFacade;   
         private readonly IOrderCommandFacade orderFacade;
+        private readonly IOrderQueryFacade _orderQueryFacade;   
 
         public OrdersController
             (

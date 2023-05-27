@@ -16,8 +16,8 @@ namespace MessageHandlers
         IHandleMessages<CancelAllOrderCommandMessage>
         
     {
-        private readonly IOrderQueryFacade _orderQueryFacade;
         private readonly IOrderCommandFacade orderFacade;
+        private readonly IOrderQueryFacade _orderQueryFacade;
 
         public  OrderCommandsHandler
 

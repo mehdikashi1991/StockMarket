@@ -29,7 +29,7 @@ namespace MessageHandlers
 
         public async Task Handle(AddOrderCommandMessage message, IMessageHandlerContext context)
         {
-            log.Error("OrderCommandsHandler");
+            log.InfoFormat("Handle {CorollationId}", message.CorollationId);
 
             var command = new Application.Contract.Commands.AddOrderCommand()
             {
@@ -38,6 +38,7 @@ namespace MessageHandlers
                 Side = message.Side.ToDomain(),
                 Price = message.Price,
                 IsFillAndKill = (bool)message.IsFillAndKill,
+                CorollationId = message.CorollationId
             };
 
             var result = await orderFacade.ProcessOrder(command);

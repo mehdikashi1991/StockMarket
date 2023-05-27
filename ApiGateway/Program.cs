@@ -17,11 +17,10 @@ namespace ApiGateway
         {
             try
             {
-                var builder = WebApplication.CreateBuilder(args);
-
                 LogManager
                 .Setup()
                 .LoadConfigurationFromAppSettings();
+                var builder = WebApplication.CreateBuilder(args);
 
                 //NLog
                 builder.Logging.ClearProviders();

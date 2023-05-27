@@ -15,11 +15,11 @@ namespace StockMarketApi
         {
             try
             {
-                var builder = WebApplication.CreateBuilder(args);
-
                 LogManager
                 .Setup()
                 .LoadConfigurationFromAppSettings();
+
+                var builder = WebApplication.CreateBuilder(args);
 
                 //NLog
                 builder.Logging.ClearProviders();
@@ -32,6 +32,11 @@ namespace StockMarketApi
                     NServiceBus.Logging.ILoggerFactory nservicebusLoggerFactory = new ExtensionsLoggerFactory(loggerFactory: extensionsLoggerFactory);
 
                     NServiceBus.Logging.LogManager.UseFactory(loggerFactory: nservicebusLoggerFactory);
+
+                    //NServiceBus.Logging.LogManager.UseFactory(loggerFactory: new ExtensionsLoggerFactory(
+                    //    builder.Services.BuildServiceProvider().
+                    //    GetRequiredService<ILoggerFactory>())
+                    //    );
 
                     var endpointConfiguration = new EndpointConfiguration("StockMarketService");
                     var transport = endpointConfiguration.UseTransport<LearningTransport>();

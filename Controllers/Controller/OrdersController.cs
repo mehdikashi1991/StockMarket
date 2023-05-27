@@ -35,8 +35,6 @@ namespace EndPoints.Controller
         [HttpPost]
         public async Task<IActionResult> ProcessOrder([FromBody] OrderVM orderVM)
         {
-            _logger.LogError("ProcessOrder");
-
             var command = new AddOrderCommand()
             {
                 Amount = orderVM.Amount,
@@ -44,7 +42,10 @@ namespace EndPoints.Controller
                 Side = orderVM.Side,
                 Price = orderVM.Price,
                 IsFillAndKill = (bool)orderVM.IsFillAndKill,
+                CorollationId = Guid.NewGuid()
             };
+
+            _logger.LogInformation("Processed order {CorollationId}", command.CorollationId);
 
             return CreatedAtAction(
                "ProcessOrder",

@@ -1,5 +1,4 @@
-﻿using Application.Contract.CommandHandlerContracts;
-using Application.Contract.Commands;
+﻿using Application.Contract.Commands;
 using Domain;
 using Facade.Contract;
 using Framework.Contracts;
@@ -7,14 +6,14 @@ using Messages;
 
 namespace MessageFacadeProvider
 {
-    public class OrderMessageCommandFacade:IOrderCommandFacade
+    public class OrderMessageCommandFacade : IOrderCommandFacade
     {
-        IMessageService messageService;
+        private IMessageService messageService;
+
         public OrderMessageCommandFacade(IMessageService messageService)
         {
             this.messageService = messageService;
         }
-     
 
         public async Task<ProcessedOrder> CancelAllOrders(object obj)
         {
@@ -24,18 +23,15 @@ namespace MessageFacadeProvider
             return new ProcessedOrder();
         }
 
-       
-
         public async Task<ProcessedOrder> CancelOrder(long id)
         {
-            var message=new CancelOrderCommandMessage() { Id=id};
+            var message = new CancelOrderCommandMessage() { Id = id };
 
             await messageService.SendMessageAsync(message);
             return new ProcessedOrder();
-        }      
-       
+        }
 
-       public async Task<ProcessedOrder> ModifyOrder(ModifieOrderCommand orderCommand)
+        public async Task<ProcessedOrder> ModifyOrder(ModifieOrderCommand orderCommand)
         {
             var message = new ModifyOrderCommandMessage()
             {
@@ -56,8 +52,8 @@ namespace MessageFacadeProvider
                 Amount = orderCommand.Amount,
                 Price = orderCommand.Price,
                 IsFillAndKill = orderCommand.IsFillAndKill,
-                ExpireTime = (DateTime)orderCommand.ExpDate
-
+                ExpireTime = (DateTime)orderCommand.ExpDate,
+                CorollationId = orderCommand.CorollationId,
             };
 
             await messageService.SendMessageAsync(message);

@@ -1,4 +1,4 @@
-﻿namespace Domain.Common
+﻿namespace Framework.Contracts.Common
 {
     public class PageInfo
     {

@@ -1,5 +1,5 @@
-﻿namespace Domain.Common
-{    
+﻿namespace Framework.Contracts.Common
+{
     public class PageResult<T>
     {
         public int CurrentPage { get; set; }

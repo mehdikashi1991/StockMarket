@@ -1,4 +1,6 @@
 ﻿using Domain;
+using Domain.Orders.Entities;
+using Domain.Trades.Entities;
 using Hal;
 using Hal.Builders;
 

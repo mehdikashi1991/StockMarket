@@ -1,9 +1,6 @@
-﻿using Domain.Common;
-using Domain.Contract.Trades.Repository.Query;
-using Infrastructure.GenericServices;
-using Microsoft.EntityFrameworkCore;
-using Domain.Contract.Trades.Repository.Query;
+﻿using Domain.Contract.Trades.Repository.Query;
 using Domain.Trades.Entities;
+using Infrastructure.GenericServices;
 
 namespace Infrastructure.Trades.QueryRepositories
 {

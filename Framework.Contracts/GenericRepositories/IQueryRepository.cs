@@ -1,4 +1,4 @@
-﻿using Domain.Common;
+﻿using Framework.Contracts.Common;
 using System.Linq.Expressions;
 
 namespace Framework.Contracts.GenericRepositories

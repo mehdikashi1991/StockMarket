@@ -1,4 +1,5 @@
 ﻿using Domain.Trades.Entities;
+using Framework.Contracts.Common;
 
 namespace Facade.Contract
 {

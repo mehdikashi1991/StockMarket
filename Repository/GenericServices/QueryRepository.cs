@@ -1,10 +1,7 @@
-﻿using Domain.Common;
-using Domain.GenericRepositories;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using Framework.Contracts.GenericRepositories;
+using Framework.Contracts.Common;
 
 namespace Infrastructure.GenericServices
 {

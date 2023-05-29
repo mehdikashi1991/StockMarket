@@ -1,13 +1,7 @@
-﻿using Domain;
-using Domain.Common;
+﻿
 using Domain.Contract.Orders.Repository.Query;
 using Domain.Orders.Entities;
 using Facade.Contract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FacadeProvider.OrderFacadeProviders
 {

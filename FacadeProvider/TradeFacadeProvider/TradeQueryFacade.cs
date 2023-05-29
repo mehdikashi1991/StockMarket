@@ -1,8 +1,8 @@
 ﻿using Domain;
-using Domain.Common;
 using Domain.Contract.Trades.Repository.Query;
 using Domain.Trades.Entities;
 using Facade.Contract;
+using Framework.Contracts.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -6,13 +6,12 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using Domain;
-using Domain.Orders.Repositories.Command;
-using Domain.UnitOfWork;
 using Xunit;
 using Domain.Contract.Orders.Repository.Command;
 using Domain.Contract.Orders.Repository.Query;
 using Domain.Contract.Trades.Repository.Query;
 using Domain.Contract.Trades.Repository.Command;
+using Framework.Contracts.UnitOfWork;
 
 namespace Application.Tests
 {

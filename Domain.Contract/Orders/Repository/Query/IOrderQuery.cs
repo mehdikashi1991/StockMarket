@@ -1,4 +1,5 @@
-﻿using Domain.GenericRepositories;
+﻿using Domain.Orders.Entities;
+using Framework.Contracts.GenericRepositories;
 
 namespace Domain.Contract.Orders.Repository.Query
 {

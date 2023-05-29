@@ -1,5 +1,6 @@
 using Application.Tests;
 using Controllers;
+using Controllers.Model;
 using TechTalk.SpecFlow.Assist;
 
 namespace SpecFlowTest.StepDefinitions

@@ -1,6 +1,7 @@
 ﻿using Domain;
 using Domain.Contract.Orders.Repository.Query;
 using Domain.Contract.Trades.Repository.Query;
+using Domain.Orders.Entities;
 
 namespace Application.Factories
 {

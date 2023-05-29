@@ -1,7 +1,7 @@
-﻿using Domain;
-using Domain.Common;
+﻿using Domain.Orders.Entities;
 
-namespace FacadeProvider
+
+namespace Facade.Contract
 {
     public interface IOrderQueryFacade
     {

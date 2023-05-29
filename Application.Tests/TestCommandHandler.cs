@@ -2,12 +2,11 @@
 using Application.OrderService.OrderCommandHandlers;
 using System.Threading.Tasks;
 using Domain;
-using Domain.Orders.Repositories.Command;
-using Domain.UnitOfWork;
 using Domain.Contract.Orders.Repository.Command;
 using Domain.Contract.Orders.Repository.Query;
 using Domain.Contract.Trades.Repository.Command;
 using Domain.Contract.Trades.Repository.Query;
+using Framework.Contracts.UnitOfWork;
 
 namespace Application.Tests
 {

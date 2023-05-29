@@ -1,6 +1,6 @@
-﻿using Controllers;
-using FacadeProvider;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Domain;
+using Facade.Contract;
 
 namespace EndPoints.Controller
 {

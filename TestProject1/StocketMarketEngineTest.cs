@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Domain;
 using Xunit;
 using Xunit.Abstractions;
+using Domain.Orders.Entities;
 
 namespace Test
 {

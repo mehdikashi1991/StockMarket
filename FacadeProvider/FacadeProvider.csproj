@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -10,7 +10,6 @@
     <ProjectReference Include="..\Application.Contract\Application.Contract.csproj" />
     <ProjectReference Include="..\Domain.Contract\Domain.Contract.csproj" />
     <ProjectReference Include="..\Facade.Contract\Facade.Contract.csproj" />
-    <ProjectReference Include="..\TradeMatchingEngine\Domain.csproj" />
   </ItemGroup>
 
 </Project>

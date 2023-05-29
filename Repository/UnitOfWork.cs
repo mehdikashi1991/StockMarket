@@ -1,4 +1,4 @@
-﻿using Domain.UnitOfWork;
+﻿using Framework.Contracts.UnitOfWork;
 
 namespace Infrastructure
 {

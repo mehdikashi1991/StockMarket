@@ -1,4 +1,4 @@
-﻿using Domain;
+﻿using Domain.Trades.Entities;
 
 namespace Application.Tests
 {

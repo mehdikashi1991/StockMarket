@@ -2,6 +2,9 @@
 using Domain.GenericRepositories;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.Text;
+using System.Threading.Tasks;
+using Framework.Contracts.GenericRepositories;
 
 namespace Infrastructure.GenericServices
 {

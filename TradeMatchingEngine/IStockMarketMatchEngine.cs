@@ -1,4 +1,6 @@
-﻿namespace Domain
+﻿using Domain.Orders.Entities;
+
+namespace Domain
 {
     public interface IStockMarketMatchEngine:IAsyncDisposable
     {
@@ -9,3 +11,4 @@
         Task<IStockMarketMatchingEngineProcessContext> ProcessOrderAsync(int price, int amount, Side side, DateTime? expireTime = null, bool? fillAndKill = null, long? orderParentId = null);
     }
 }
+ 

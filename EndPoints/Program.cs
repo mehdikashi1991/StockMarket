@@ -11,31 +11,46 @@ namespace EndPoints
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
 
             // var builder = WebApplication.CreateBuilder(args).Build().Run();
-            //using (var clientHost = CreateClientHost(args).Build());
-            //using (var clientHost = CreateInternalHost(args).Build());
-            CreateClientHost(args).Build().Run();
-
+            using (var outboardhost = CreateOutboardHost(args).Build())
+            using (var internalhost = CreateInternalHost(Host.CreateDefaultBuilder(args)).Build())
+            {
+                await Task.WhenAll(outboardhost.StartAsync(), internalhost.StartAsync());
+                await Task.WhenAll(outboardhost.WaitForShutdownAsync(), internalhost.WaitForShutdownAsync());
+            }
         }
 
-        public static IHostBuilder CreateClientHost(string[] args)
-        {
-            return Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder =>
+        public static IHostBuilder CreateOutboardHost(string[] args)
+        {           
+           
+            var builder= Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.UseStartup<Startup>();
             }
             );
 
 
+            return builder;
+
+
         }
-        //public static IHostBuilder CreateInternalHost(string[] args)
-        //{
-        //    return Host.CreateDefaultBuilder(args)
-        //        .UseNServiceBus()
-        //}
+        public static IHostBuilder CreateInternalHost(IHostBuilder builder)
+        {
+            builder.UseNServiceBus(ctx =>
+            {
+                var endpointconfig = new EndpointConfiguration("MessageHandlers");
+                
+
+                endpointconfig.UseTransport(new LearningTransport());
+
+                return endpointconfig;
+            });
+
+            return builder;
+        }
 
         //// Add services to the container.
         //builder.Services.AddRazorPages();

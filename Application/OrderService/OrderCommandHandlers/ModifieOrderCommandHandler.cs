@@ -5,14 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain;
-using Domain.Orders.Repositories.Command;
-using Domain.UnitOfWork;
 using Domain.Contract.Orders.Repository.Command;
 using Domain.Contract.Orders.Repository.Query;
 using Domain.Contract.Trades.Repository.Command;
 using Domain.Contract.Trades.Repository.Query;
 using Application.Contract.Commands;
-using Application.Contract;
+using Application.Contract.CommandHandlerContracts;
+using Framework.Contracts.UnitOfWork;
 
 namespace Application.OrderService.OrderCommandHandlers
 {

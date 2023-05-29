@@ -1,12 +1,12 @@
-﻿using Application.Contract;
+﻿using Application.Contract.CommandHandlerContracts;
 using Application.Contract.Commands;
 using Application.Factories;
 using Domain;
 using Domain.Contract.Orders.Repository.Command;
 using Domain.Contract.Orders.Repository.Query;
 using Domain.Contract.Trades.Repository.Command;
-using Domain.Orders.Repositories.Command;
-using Domain.UnitOfWork;
+using Domain.Contract.Trades.Repository.Query;
+using Framework.Contracts.UnitOfWork;
 
 namespace Application.OrderService.OrderCommandHandlers
 {
@@ -17,7 +17,8 @@ namespace Application.OrderService.OrderCommandHandlers
             IOrderCommandRepository orderCommandRepository, 
             IOrderQueryRepository orderQueryRepository, 
             ITradeCommandRepository tradeCommandRepository,
-            Domain.Contract.Trades.Repository.Query.ITradeQueryRespository tradeQueryRespository) : base(unitOfWork, stockMarketFactory, orderCommandRepository, orderQueryRepository, tradeCommandRepository, tradeQueryRespository)
+            ITradeQueryRespository tradeQueryRespository) :
+            base(unitOfWork, stockMarketFactory, orderCommandRepository, orderQueryRepository, tradeCommandRepository, tradeQueryRespository)
         {
         }
         protected async override Task<ProcessedOrder> SpecificHandle(AddOrderCommand? command)

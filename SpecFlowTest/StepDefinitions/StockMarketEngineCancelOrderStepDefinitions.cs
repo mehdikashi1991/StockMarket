@@ -3,6 +3,7 @@ using Application.Tests;
 using Newtonsoft.Json;
 using System.Text;
 using Domain;
+using Domain.Orders.Entities;
 
 namespace SpecFlowTest.StepDefinitions
 {

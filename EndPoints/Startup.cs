@@ -1,5 +1,7 @@
 ﻿using EndPoints.Controller;
-using FacadeProvider;
+using Facade.Contract;
+using FacadeProvider.OrderFacadeProviders;
+using FacadeProvider.TradeFacadeProvider;
 using Infrastructure;
 using System.Reflection;
 

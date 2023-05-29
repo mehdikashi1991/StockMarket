@@ -1,4 +1,4 @@
-﻿namespace Controllers
+﻿namespace Controllers.Model
 {
     public class ModifiedOrderVM
     {

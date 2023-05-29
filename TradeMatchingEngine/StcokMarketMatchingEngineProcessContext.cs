@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using Domain.Orders.Entities;
+using Domain.Trades.Entities;
 
 namespace Domain
 {

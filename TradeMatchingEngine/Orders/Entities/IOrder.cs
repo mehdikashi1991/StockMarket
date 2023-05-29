@@ -1,7 +1,4 @@
-﻿
-using Domain.Common;
-
-namespace Domain
+﻿namespace Domain.Orders.Entities
 {
     public interface IOrder : IBaseEntity<long>
     {

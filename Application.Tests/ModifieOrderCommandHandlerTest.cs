@@ -4,9 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Domain;
 using Xunit;
 using Application.Contract.Commands;
+using Domain.Trades.Entities;
+using Domain.Orders.Entities;
 
 namespace Application.Tests
 {

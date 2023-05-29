@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Framework.Contracts.Common;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Framework.Contracts.GenericRepositories
 {
@@ -12,5 +8,6 @@ namespace Framework.Contracts.GenericRepositories
         Task<TInterface?> Get(Expression<Func<T, bool>> predicate);
         Task<IEnumerable<TInterface>> GetAll(Expression<Func<T, bool>>? predicate = null);
         Task<long> GetMax(Expression<Func<T, long?>> selector);
+        Task<PageResult<T>> GetPaging(int page, int pageSize, int currentPage, long lastId);
     }
 }

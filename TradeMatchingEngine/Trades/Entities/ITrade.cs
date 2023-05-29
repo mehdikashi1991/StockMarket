@@ -1,6 +1,8 @@
-﻿namespace Domain.Trades.Entities
+﻿using Framework.Contracts.Common;
+
+namespace Domain.Trades.Entities
 {
-    public interface ITrade
+    public interface ITrade : IBaseEntity<long>
     {
         int Amount { get; }
         long BuyOrderId { get; }

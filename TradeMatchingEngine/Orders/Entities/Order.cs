@@ -3,7 +3,7 @@
 namespace Domain.Orders.Entities
 {
 
-    public class Order : IOrder
+    public class Order : IOrder 
     {
         private OrderStates _state;
 

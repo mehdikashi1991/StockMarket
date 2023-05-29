@@ -1,6 +1,8 @@
-﻿namespace Domain.Orders.Entities
+﻿using Framework.Contracts.Common;
+
+namespace Domain.Orders.Entities
 {
-    public interface IOrder
+    public interface IOrder : IBaseEntity<long>
     {
         int Amount { get; }
         DateTime ExpireTime { get; }

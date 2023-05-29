@@ -19,12 +19,12 @@ namespace EndPoints.Controller
             (
             IOrderCommandFacade orderFacade,
             IOrderQueryFacade orderQueryFacade
-          
+
             )
         {
             this.orderFacade = orderFacade;
-            _orderQueryFacade= orderQueryFacade;
-            
+            _orderQueryFacade = orderQueryFacade;
+
         }
 
         /// <summary>
@@ -43,12 +43,13 @@ namespace EndPoints.Controller
                 Price = orderVM.Price,
                 IsFillAndKill = (bool)orderVM.IsFillAndKill,
             };
-          
+
             return CreatedAtAction(
                "ProcessOrder",
                 "Orders",
                 null,
-                await orderFacade.ProcessOrder(command));
+               OutputGenerator.ProcessOrderLink(
+                   await orderFacade.ProcessOrder(command)));
         }
 
         /// <summary>
@@ -74,7 +75,7 @@ namespace EndPoints.Controller
             {
                 return AcceptedAtAction("ModifyOrder",
                               "Orders",
-                null, result.OrderId);
+                null, OutputGenerator.ModifyOrderLink(result));
             }
 
             return BadRequest(modifieOrderVM);
@@ -98,7 +99,7 @@ namespace EndPoints.Controller
                     return AcceptedAtAction(
                                            "CancellOrder",
                                          "Orders",
-                                            null, result.OrderId);
+                                            null, OutputGenerator.CancelOrderLink(result));
 
                 }
 
@@ -125,7 +126,7 @@ namespace EndPoints.Controller
                 return AcceptedAtAction(
                     "CancellAllOrders",
                       "Orders",
-                        null, result.CancelledOrders);
+                        null, OutputGenerator.CancellAllOrdersLink(result));
             }
 
             return BadRequest();
@@ -135,7 +136,8 @@ namespace EndPoints.Controller
         [HttpGet("{orderId}")]
         public async Task<IActionResult> GetOrder(long orderId)
         {
-            return Ok(await _orderQueryFacade.Get(orderId));
+            var result = await _orderQueryFacade.Get(orderId);
+            return AcceptedAtAction("GetOrder", "Orders", OutputGenerator.GetOrderLink(result));
         }
     }
 }

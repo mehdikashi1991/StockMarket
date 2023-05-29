@@ -1,4 +1,5 @@
-﻿using Application.Factories;
+﻿using Application.Contract;
+using Application.Factories;
 using Application.OrderService.OrderCommandHandlers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

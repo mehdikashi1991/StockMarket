@@ -9,7 +9,6 @@
 
         public int FirstRowOnPage
         {
-
             get { return (CurrentPage - 1) * PageSize + 1; }
         }
 

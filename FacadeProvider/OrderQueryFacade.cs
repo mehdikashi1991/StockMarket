@@ -1,10 +1,6 @@
 ﻿using Domain;
+using Domain.Common;
 using Domain.Contract.Orders.Repository.Query;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FacadeProvider
 {
@@ -18,7 +14,12 @@ namespace FacadeProvider
         }
         public async Task<IOrder> Get(long id)
         {
-            return await orderQuery.Get(o=>o.Id == id);
+            return await orderQuery.Get(o => o.Id == id);
         }
+
+        //public async Task<PageResult<Order>> GetAllWithPaging(int page, int pageSize, int currentPage = 1, long lastId = 0)
+        //{
+        //    return await orderQuery.GetPaged(page, pageSize, currentPage, lastId);
+        //}
     }
 }

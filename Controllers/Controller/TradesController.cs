@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Domain;
+﻿using Controllers;
 using FacadeProvider;
-using Controllers;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EndPoints.Controller
 {
@@ -21,6 +20,14 @@ namespace EndPoints.Controller
             var result = await tradeQueryFacade.GetAllTrades();
             return AcceptedAtAction("GetAllTrade", "Trades", OutputGenerator.GetAllTradeLink(result));
         }
+
+        [HttpGet("{page}/{pageSize}/{currentPage}/{lastId}")]
+        public async Task<IActionResult> GetAllTradesWithPaging(int page, int pageSize, int currentPage, long lastId)
+        {
+            var result = await tradeQueryFacade.GetAllTradesWithPaging(page, pageSize, currentPage, lastId);
+            return Ok(result);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTrade(long id)
         {

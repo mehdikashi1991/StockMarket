@@ -1,11 +1,10 @@
-﻿using Infrastructure.GenericServices;
-using Microsoft.EntityFrameworkCore;
-using Domain;
+﻿using Domain.Common;
 using Domain.Contract.Trades.Repository.Query;
+using Infrastructure.GenericServices;
 
 namespace Infrastructure.Order.CommandRepositories
 {
-    public class TradeQueryRepository : QueryRepository<Domain.Trade, Domain.ITrade>,ITradeQueryRespository
+    public class TradeQueryRepository : QueryRepository<Domain.Trade, Domain.ITrade>,ITradeQueryRespository 
     {
         private readonly TradeMatchingEngineContext tradeMatchingEngineContext;
 
@@ -13,7 +12,7 @@ namespace Infrastructure.Order.CommandRepositories
         {
 
         }
-
+         
        
     }
 }

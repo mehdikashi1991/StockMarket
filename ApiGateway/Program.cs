@@ -5,6 +5,7 @@ using MessageFacadeProvider;
 using MessageNserviceBus;
 using Messages;
 using NLog;
+using NLog.Extensions.Logging;
 using NLog.Web;
 using NServiceBus.Extensions.Logging;
 
@@ -22,8 +23,12 @@ namespace ApiGateway
                 var builder = WebApplication.CreateBuilder(args);
 
                 //NLog
-                builder.Logging.ClearProviders();
-                builder.Host.UseNLog();
+                builder.Host.ConfigureLogging((hostingContext, logging) =>
+                {
+                    logging.ClearProviders();
+                    logging.AddNLog();
+                    //LogManager.Configuration.Variables["HostKey"] = Assembly.GetExecutingAssembly().FullName!.Split(',')[0];
+                });
 
                 builder.Host.UseNServiceBus(ctx =>
                 {

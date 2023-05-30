@@ -3,6 +3,7 @@ using FacadeProvider.OrderFacadeProviders;
 using FacadeProvider.TradeFacadeProvider;
 using Infrastructure;
 using NLog;
+using NLog.Extensions.Logging;
 using NLog.Web;
 using NServiceBus.Extensions.Logging;
 
@@ -21,8 +22,12 @@ namespace StockMarketApi
                 var builder = WebApplication.CreateBuilder(args);
 
                 //NLog
-                builder.Logging.ClearProviders();
-                builder.Host.UseNLog();
+                builder.Host.ConfigureLogging((hostingContext, logging) =>
+                {
+                    logging.ClearProviders();
+                    logging.AddNLog();
+                    //LogManager.Configuration.Variables["HostKey"] = Assembly.GetExecutingAssembly().FullName!.Split(',')[0];
+                });
 
                 builder.Host.UseNServiceBus(ctx =>
                 {

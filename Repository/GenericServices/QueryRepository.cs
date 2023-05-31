@@ -37,7 +37,6 @@ namespace Infrastructure.GenericServices
 
             var change = Math.Abs(currentPage - page);
             var skip = (page - 1) * pageSize;
-
             if (change > 1)
             {
                 result.RowCount = _querySet.Count();
@@ -48,9 +47,9 @@ namespace Infrastructure.GenericServices
             }
 
             if (currentPage > page)
-                lastId = (currentPage - 2) * pageSize;
+                lastId -= (2 * pageSize);
 
-            result.Result = await _querySet.OrderBy(i => i.Id).Where(i => i.Id > lastId).Take(pageSize).ToListAsync();
+            result.Result = await _querySet.Where(i => i.Id > lastId).OrderBy(i => i.Id).Take(pageSize).ToListAsync();
 
             return result;
 

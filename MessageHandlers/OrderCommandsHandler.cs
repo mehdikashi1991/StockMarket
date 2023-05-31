@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using Application.Contract.Commands;
+using Domain;
 using Facade.Contract;
 using Messages;
 using System;
@@ -65,16 +66,17 @@ namespace MessageHandlers
         public async Task Handle(CancelOrderCommandMessage message, IMessageHandlerContext context)
         {
             
-            var id = message.Id;
+            var command=new CancelOrderCommand() { Id=message.Id };
 
-            var result=await orderFacade.CancelOrder(id);
+            var result=await orderFacade.CancelOrder(command);
 
 
         }
 
         public async Task Handle(CancelAllOrderCommandMessage message, IMessageHandlerContext context)
         {
-            var result = await orderFacade.CancelAllOrders(null);
+            var command = new CancelAllOrderCommand() { };
+            var result = await orderFacade.CancelAllOrders(command);
         }
     }
 }

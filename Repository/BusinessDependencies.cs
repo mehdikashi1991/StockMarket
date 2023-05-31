@@ -1,60 +1,59 @@
-﻿using Application.Contract;
+﻿using Application.Contract.CommandHandlerContracts;
+using Application.Contract.Commands;
+using Application.EventHandlers;
 using Application.Factories;
 using Application.OrderService.OrderCommandHandlers;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Castle.MicroKernel.Registration;
+using Castle.Windsor;
+using Castle.Windsor.Extensions.DependencyInjection.Extensions;
 using Domain.Contract.Orders.Repository.Command;
 using Domain.Contract.Orders.Repository.Query;
 using Domain.Contract.Trades.Repository.Command;
 using Domain.Contract.Trades.Repository.Query;
-using Application.Contract.CommandHandlerContracts;
+using Domain.Events;
+using Framework.Contracts.Events;
+using Framework.Contracts.UnitOfWork;
+using Infrastructure.Orders.CommandRepositories;
 using Infrastructure.Orders.QueryRepositories;
 using Infrastructure.Trades.CommandRepositories;
 using Infrastructure.Trades.QueryRepositories;
-using Infrastructure.Orders.CommandRepositories;
-using Framework.Contracts.UnitOfWork;
-using Castle.Windsor;
-using Castle.MicroKernel.Registration;
-using Castle.Windsor.Extensions.DependencyInjection.Extensions;
-using Application.Contract.Commands;
+using L02Application;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure
 {
     public static class BusinessDependencies
     {
+        const string INTERNAL_CMD_HANDLER_NAME = "internalCmdHadler";
         public static void WindsorDependencyHolder(this IWindsorContainer container)
         {
-            container.Register(
-           Component.For<ICommandHandler<AddOrderCommand>>().ImplementedBy<AddOrderCommandHandlers>()
-           .Named(typeof(AddOrderCommandHandlers).FullName).LifeStyle.ScopedToNetServiceScope(),
-           //Component.For<ICommandHandler<>>().ImplementedBy<TradeCommandRepository>()
-           //.Named(typeof(TradeCommandRepository).FullName).LifeStyle.ScopedToNetServiceScope(),
-           Component.For<ICommandHandler<ModifieOrderCommand>>().ImplementedBy<ModifieOrderCommandHandler>()
-           .Named(typeof(ModifieOrderCommandHandler).FullName).LifeStyle.ScopedToNetServiceScope(),
-           Component.For<ICommandHandler<CancelOrderCommand>>().ImplementedBy<CancellOrderCommandHandler>()
-           .Named(typeof(CancellOrderCommandHandler).FullName).LifeStyle.ScopedToNetServiceScope(),
-           Component.For<ICommandHandler<CancelAllOrderCommand>>().ImplementedBy<CancellAllOrdersCommandHandler>()
-           .Named(typeof(CancellAllOrdersCommandHandler).FullName).LifeStyle.ScopedToNetServiceScope()
-
-           // Component.For<ICancellAllOrdersCommandHandler>()
-           // .ImplementedBy<TransactionalCommandHandler<object, ICancellAllOrdersCommandHandler>>()
-           //.LifeStyle.ScopedToNetServiceScope(),
-
-           //Component.For<MyServiceA>()
-           //.DependsOn(Dependency.OnComponent<IMyService, ServiceA>()).LifestyleSingleton(),
-           //Component.For<MyServiceB>()
-           //.DependsOn(Dependency.OnComponent<IMyService, ServiceB>()).LifestyleSingleton(),
-           //Component.For(typeof(IServiceFactory<>))
-           //.ImplementedBy(typeof(ServiceFactory<>)).LifestyleTransient(),
-           //Component.For(typeof(IServiceFactory))
-           //.ImplementedBy(typeof(ServiceFactory)).LifestyleSingleton()
-
-           );
+            foreach (var item in new Dictionary<Type, (Type, Type)> {
+                {
+                    typeof(ICommandHandler<AddOrderCommand>),
+                    (typeof(AddOrderCommandHandlers),typeof(AddOrderCommand))
+                },
+                {
+                    typeof(ICommandHandler<ModifieOrderCommand>),
+                    (typeof(ModifieOrderCommandHandler), typeof(ModifieOrderCommand))
+                },
+                {
+                    typeof(ICommandHandler<CancelOrderCommand>),
+                    (typeof(CancellOrderCommandHandler), typeof(CancelOrderCommand))
+                },
+                {
+                    typeof(ICommandHandler<CancelAllOrderCommand>),
+                    (typeof(CancellAllOrdersCommandHandler), typeof(CancelAllOrderCommand))
+                },
+                })
+            {
+                var t = typeof(TransactionalCommandHandler<>).MakeGenericType(new Type[1] { item.Value.Item2 });
+                container.Register(
+                    Component.For(item.Key).ImplementedBy(item.Value.Item1).Named(INTERNAL_CMD_HANDLER_NAME + item.Value.Item1.Name).LifeStyle.ScopedToNetServiceScope()
+                   , Component.For(item.Key).ImplementedBy(t)
+                    .DependsOn(Dependency.OnComponent(item.Key, INTERNAL_CMD_HANDLER_NAME + item.Value.Item1.Name)).LifeStyle.ScopedToNetServiceScope().IsDefault()
+                    );
+            }
         }
         public static IServiceCollection DependencyHolder(this IServiceCollection services)
         {
@@ -64,16 +63,13 @@ namespace Infrastructure
             });
 
             services.AddScoped<IOrderCommandRepository, OrderCommandRepository>();
+            services.AddScoped<ITradeCommandRepository, TradeCommandRepository>();
             services.AddScoped<IOrderQueryRepository, OrderQueryRepository>();
-           // services.AddScoped<IAddOrderCommandHandlers, AddOrderCommandHandlers>();
-            //services.AddScoped<ITradeCommandRepository, TradeCommandRepository>();
-            //builder.Services.AddScoped(typeof(ICommandRepository<>), typeof(CommandRepository<>));
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ITradeQueryRespository, TradeQueryRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IStockMarketFactory, StockMarketFactory>();
-            //services.AddScoped<IModifieOrderCommandHandler, ModifieOrderCommandHandler>();
-            //services.AddScoped<ICancellOrderCommandHandler, CancellOrderCommandHandler>();
-            //services.AddScoped<ICancellAllOrdersCommandHandler, CancellAllOrdersCommandHandler>();
+            services.AddScoped<IEventHandler<OrderCreated>, DomainEventHandler>();
+            services.AddScoped<IDispatcher<OrderCreated>, GenericDispatche<OrderCreated>>();
             return services;
         }
     }

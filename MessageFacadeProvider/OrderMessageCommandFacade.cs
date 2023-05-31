@@ -26,9 +26,9 @@ namespace MessageFacadeProvider
 
        
 
-        public async Task<ProcessedOrder> CancelOrder(long id)
+        public async Task<ProcessedOrder> CancelOrder(CancelOrderCommand command)
         {
-            var message=new CancelOrderCommandMessage() { Id=id};
+            var message=new CancelOrderCommandMessage() { Id=command.Id};
 
             await messageService.SendMessageAsync(message);
             return new ProcessedOrder();

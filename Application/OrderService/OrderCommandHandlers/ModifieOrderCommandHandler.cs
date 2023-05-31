@@ -17,11 +17,17 @@ namespace Application.OrderService.OrderCommandHandlers
 {
     public class ModifieOrderCommandHandler : StockMarketCommandHandler<ModifieOrderCommand>, ICommandHandler<ModifieOrderCommand>
     {
-        public ModifieOrderCommandHandler(IUnitOfWork unitOfWork, IStockMarketFactory stockMarketFactory, 
-            IOrderCommandRepository orderCommandRepository, 
-            IOrderQueryRepository orderQueryRepository, 
-            ITradeCommandRepository tradeCommandRepository, 
-            ITradeQueryRespository tradeQueryRespository) : base(stockMarketFactory, orderCommandRepository, orderQueryRepository, tradeCommandRepository, tradeQueryRespository)
+        public ModifieOrderCommandHandler(IUnitOfWork unitOfWork,
+                                          IStockMarketFactory stockMarketFactory,
+                                          IOrderCommandRepository orderCommandRepository,
+                                          IOrderQueryRepository orderQueryRepository,
+                                          ITradeCommandRepository tradeCommandRepository,
+                                          ITradeQueryRespository tradeQueryRespository)
+            : base(stockMarketFactory,
+                   orderCommandRepository,
+                   orderQueryRepository,
+                   tradeCommandRepository,
+                   tradeQueryRespository)
         {
         }
 

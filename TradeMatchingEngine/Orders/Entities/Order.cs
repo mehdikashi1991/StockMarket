@@ -1,35 +1,33 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Domain.Events;
+using Framework.Contracts.Common;
 
 namespace Domain.Orders.Entities
 {
 
-    public class Order : IOrder 
+    public class Order : AggegateRoot, IOrder
     {
-        private OrderStates _state;
+        private OrderStates state;
 
         internal Order(long id, Side side, int price, int amount, DateTime expireTime, OrderStates? orderState, int? originalAmount = null, bool? isFillAndKill = null, long? orderParentId = null)
         {
-            this.Id = id;
-            this.Side = side;
-            this.Price = price;
-            this.Amount = amount;
-            this.OriginalAmount = originalAmount ?? amount;
-            this.IsFillAndKill = isFillAndKill;
-            this.ExpireTime = expireTime;
-            _state = orderState == null ? OrderStates.Register : (OrderStates)orderState;
-            this.OrderParentId = orderParentId;
+            Id = id;
+            Side = side;
+            Price = price;
+            Amount = amount;
+            OriginalAmount = originalAmount ?? amount;
+            IsFillAndKill = isFillAndKill;
+            ExpireTime = expireTime;
+            state = orderState == null ? OrderStates.Register : (OrderStates)orderState;
+            OrderParentId = orderParentId;
+            AddDomainEvent(new OrderCreated(this));
         }
 
-        public OrderStates? OrderState { get { return _state; } private set { value = _state; } }
-        public long Id { get; }
-
+        public OrderStates? OrderState { get { return state; } private set { value = state; } }
+        public override long Id { get; }
         public Side Side { get; private set; }
-
         public int Price { get; private set; }
         public int? OriginalAmount { get; private set; }
-
         public int Amount { get; private set; }
-
         public bool? IsFillAndKill { get; private set; } = false;
 
         public bool HasCompleted
@@ -45,9 +43,10 @@ namespace Domain.Orders.Entities
         public DateTime ExpireTime { get; private set; }
 
         public bool IsExpired => ExpireTime < DateTime.Now;
-        public OrderStates GetOrderState() => _state;
+        public OrderStates GetOrderState() => state;
         public long? OrderParentId { get; private set; }
-        
+
+
         public int DecreaseAmount(int amount)
         {
             Amount = Amount - amount;
@@ -61,15 +60,15 @@ namespace Domain.Orders.Entities
         }
         public void SetStateCancelled()
         {
-            _state = OrderStates.Cancell;
+            state = OrderStates.Cancell;
         }
         public void SetStateRegistered()
         {
-            _state = OrderStates.Register;
+            state = OrderStates.Register;
         }
         public void SetStateModified()
         {
-            _state = OrderStates.Modified;
+            state = OrderStates.Modified;
         }
         public void UpdateBy(IOrder order)
         {
@@ -79,7 +78,7 @@ namespace Domain.Orders.Entities
             ExpireTime = order.ExpireTime;
             IsFillAndKill = order.IsFillAndKill;
             Side = order.Side;
-            _state = (OrderStates)order.OrderState;
+            state = (OrderStates)order.OrderState;
         }
         internal Order Clone(int originalAmount)
         {

@@ -2,7 +2,7 @@
 
 namespace Domain.Orders.Entities
 {
-    public interface IOrder : IBaseEntity<long>
+    public interface IOrder : IAggegateRoot
     {
         int Amount { get; }
         DateTime ExpireTime { get; }

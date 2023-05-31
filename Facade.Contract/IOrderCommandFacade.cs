@@ -8,7 +8,7 @@ namespace Facade.Contract
     {
         Task<ProcessedOrder> ProcessOrder(AddOrderCommand orderCommand);
         Task<ProcessedOrder> ModifyOrder(ModifieOrderCommand orderCommand);
-        Task<ProcessedOrder> CancelOrder(long id);
+        Task<ProcessedOrder> CancelOrder(CancelOrderCommand command);
         Task<ProcessedOrder> CancelAllOrders(object obj);
 
 

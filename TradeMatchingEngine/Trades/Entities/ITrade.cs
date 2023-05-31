@@ -2,7 +2,7 @@
 
 namespace Domain.Trades.Entities
 {
-    public interface ITrade : IBaseEntity<long>
+    public interface ITrade : IAggegateRoot
     {
         int Amount { get; }
         long BuyOrderId { get; }

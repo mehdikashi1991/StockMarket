@@ -5,7 +5,7 @@ using Framework.Contracts.Common;
 
 namespace Infrastructure.GenericServices
 {
-    public class QueryRepository<T, TInterface> : IQueryRepository<T, TInterface> where T : class, IBaseEntity<long>, TInterface
+    public class QueryRepository<T, TInterface> : IQueryRepository<T, TInterface> where T : class, IAggegateRoot, TInterface
     {
         protected readonly DbContext _dbContext;
         protected readonly IQueryable<T> _querySet;

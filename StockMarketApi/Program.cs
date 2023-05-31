@@ -1,7 +1,12 @@
+using Castle.Windsor;
+using Castle.Windsor.Extensions.DependencyInjection;
 using Facade.Contract;
 using FacadeProvider.OrderFacadeProviders;
 using FacadeProvider.TradeFacadeProvider;
+using Framework.Contracts.Common;
 using Infrastructure;
+using Infrastructure.GenericServices;
+
 namespace StockMarketApi
 {
     public class Program
@@ -9,19 +14,22 @@ namespace StockMarketApi
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            
-            
+            builder.Host.UseServiceProviderFactory(new WindsorServiceProviderFactory());
+            builder.Host.ConfigureContainer<WindsorContainer>(c =>
+            {
+                c.WindsorDependencyHolder();
+            });
 
             builder.Host.UseNServiceBus(ctx =>
             {
                 var endpointConfiguration = new EndpointConfiguration("StockMarketService");
                 var transport = endpointConfiguration.UseTransport<LearningTransport>();
-                               
+
                 return endpointConfiguration;
 
             });
 
-
+            builder.Services.AddScoped<IServiceFactory, ServiceFactory>();
             builder.Services.DependencyHolder();
             builder.Services.AddScoped<IOrderCommandFacade, OrderCommandFacade>();
             builder.Services.AddScoped<IOrderQueryFacade, OrderQueryFacade>();
@@ -53,7 +61,7 @@ namespace StockMarketApi
 
             app.MapControllers();
             app.Run();
-        }       
+        }
 
     }
 }

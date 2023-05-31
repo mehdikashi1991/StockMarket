@@ -13,38 +13,36 @@ namespace FacadeProvider.OrderFacadeProviders
     public class OrderCommandFacade : IOrderCommandFacade
     {
         private readonly ICommandHandler<AddOrderCommand> addOrderCommandHandlers;
-        private readonly IModifieOrderCommandHandler modifieOrderCommandHandler;
-        private readonly ICancellOrderCommandHandler cancellOrderCommandHandler;
-        private readonly ICancellAllOrdersCommandHandler cancellAllOrderCommandHandler;
-        
-        public OrderCommandFacade
-            (
-            IAddOrderCommandHandlers addOrderCommandHandlers,
-            IModifieOrderCommandHandler modifieOrderCommandHandler,
-            ICancellOrderCommandHandler cancellOrderCommandHandler,
-            ICancellAllOrdersCommandHandler cancellAllOrderCommandHandler
-            )
+        private readonly ICommandHandler<ModifieOrderCommand> modifyOrderCommandHandlers;
+        private readonly ICommandHandler<CancelOrderCommand> cancelOrderCommandHandlers;
+        private readonly ICommandHandler<CancelAllOrderCommand> cancelAllOrderCommandHandler;
+
+        public OrderCommandFacade(ICommandHandler<AddOrderCommand> addOrderCommandHandlers,
+                                  ICommandHandler<ModifieOrderCommand> modifyOrderCommandHandlers,
+                                  ICommandHandler<CancelOrderCommand> cancelOrderCommandHandlers,
+                                  ICommandHandler<CancelAllOrderCommand> cancelAllOrderCommandHandler)
         {
             this.addOrderCommandHandlers = addOrderCommandHandlers;
-            this.modifieOrderCommandHandler = modifieOrderCommandHandler;
-            this.cancellOrderCommandHandler = cancellOrderCommandHandler;
-            this.cancellAllOrderCommandHandler = cancellAllOrderCommandHandler;
+            this.modifyOrderCommandHandlers = modifyOrderCommandHandlers;
+            this.cancelOrderCommandHandlers = cancelOrderCommandHandlers;
+            this.cancelAllOrderCommandHandler = cancelAllOrderCommandHandler;
         }
+
         public async Task<ProcessedOrder> CancelAllOrders(object obj)
         {
-            return await cancellAllOrderCommandHandler.Handle(null);
+            return await cancelAllOrderCommandHandler.Handle(null);
 
         }
 
-        public async Task<ProcessedOrder> CancelOrder(long id)
+        public async Task<ProcessedOrder> CancelOrder(CancelOrderCommand command)
         {
-            return await cancellOrderCommandHandler.Handle(id);
+            return await cancelOrderCommandHandlers.Handle(command);
         }
 
 
         public async Task<ProcessedOrder> ModifyOrder(ModifieOrderCommand orderCommand)
         {
-            return await modifieOrderCommandHandler.Handle(orderCommand);
+            return await modifyOrderCommandHandlers.Handle(orderCommand);
         }
 
         public async Task<ProcessedOrder> ProcessOrder(AddOrderCommand orderCommand)

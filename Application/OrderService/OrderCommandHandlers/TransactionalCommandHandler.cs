@@ -11,12 +11,11 @@ using System.Transactions;
 
 namespace Application.OrderService.OrderCommandHandlers
 {
-    public class TransactionalCommandHandler<T1,T2> : ICommandHandler<T1> 
-        where T2:ICommandHandler<T1>
+    public class TransactionalCommandHandler<T1> : ICommandHandler<T1> 
     {
         private readonly ICommandHandler<T1> handler;
         private readonly IUnitOfWork _unitOfWork;
-        public TransactionalCommandHandler(T2 handler, IUnitOfWork unitOfWork)
+        public TransactionalCommandHandler(ICommandHandler<T1> handler, IUnitOfWork unitOfWork)
         {
             this.handler = handler;
             _unitOfWork = unitOfWork;

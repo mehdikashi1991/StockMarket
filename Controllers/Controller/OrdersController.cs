@@ -88,11 +88,11 @@ namespace EndPoints.Controller
         /// <param name="orderId"></param>
         /// <returns></returns>
         [HttpDelete("{orderId}")]
-        public async Task<IActionResult> CancellOrder(long orderId)
+        public async Task<IActionResult> CancellOrder(CancelOrderCommand command)
         {
             try
             {
-                var result = await orderFacade.CancelOrder(orderId);
+                var result = await orderFacade.CancelOrder(command);
 
                 if (result != null)
                 {
@@ -103,7 +103,7 @@ namespace EndPoints.Controller
 
                 }
 
-                return BadRequest(orderId);
+                return BadRequest(command.Id);
             }
             catch (Exception ex)
             {

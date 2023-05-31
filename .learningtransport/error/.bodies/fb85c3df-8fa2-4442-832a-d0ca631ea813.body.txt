@@ -1,0 +1,1 @@
+<?xml version="1.0"?><AddOrderCommandMessage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://tempuri.net/Messages"><Side>Sell</Side><Price>1000</Price><Amount>100</Amount><IsFillAndKill>false</IsFillAndKill><ExpireTime>2024-05-31T13:33:09.651Z</ExpireTime></AddOrderCommandMessage>

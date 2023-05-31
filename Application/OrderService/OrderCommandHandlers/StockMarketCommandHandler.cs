@@ -6,39 +6,36 @@ using Domain.Contract.Orders.Repository.Query;
 using Domain.Contract.Trades.Repository.Command;
 using Domain.Contract.Trades.Repository.Query;
 using Framework.Contracts.UnitOfWork;
+using System.Runtime.CompilerServices;
+using System.Transactions;
 
 namespace Application.OrderService.OrderCommandHandlers
 {
-    public abstract class CommandHandler<T1> : ICommandHandler<T1>
+    public abstract class StockMarketCommandHandler<T1> : ICommandHandler<T1>
     {
         protected readonly IStockMarketFactory _stockMarketFactory;
         protected readonly IOrderCommandRepository _orderCommandRepository;
         protected readonly IOrderQueryRepository _orderQuery;
         protected readonly ITradeQueryRespository _tradeQuery;
         protected readonly ITradeCommandRepository _tradeCommandRepository;
-        protected readonly IUnitOfWork _unitOfWork;
         protected IStockMarketMatchEngineWithState _stockMarketMatchEngine;
-        public CommandHandler(IUnitOfWork unitOfWork, IStockMarketFactory stockMarketFactory, IOrderCommandRepository orderCommandRepository, IOrderQueryRepository orderQueryRepository, ITradeCommandRepository tradeCommandRepository, ITradeQueryRespository tradeQueryRespository)
+        public StockMarketCommandHandler(IStockMarketFactory stockMarketFactory, IOrderCommandRepository orderCommandRepository, IOrderQueryRepository orderQueryRepository, ITradeCommandRepository tradeCommandRepository, ITradeQueryRespository tradeQueryRespository)
         {
             _stockMarketFactory = stockMarketFactory;
             _orderCommandRepository = orderCommandRepository;
             _orderQuery = orderQueryRepository;
             _tradeCommandRepository = tradeCommandRepository;
-            _tradeQuery = tradeQueryRespository;
-            _unitOfWork = unitOfWork;
         }
         public async Task<ProcessedOrder?> Handle(T1 command)
         {
             _stockMarketMatchEngine = await _stockMarketFactory.GetStockMarket(_orderQuery, _tradeQuery);
-
+            using var scope = new TransactionScope(TransactionScopeOption.Required,
+                new TransactionOptions { IsolationLevel=IsolationLevel.ReadCommitted},TransactionScopeAsyncFlowOption.Enabled);
             var result = await SpecificHandle(command);
-
-            await _unitOfWork.SaveChange();
-
             return result;
         }
+        protected abstract Task<ProcessedOrder?> SpecificHandle(T1 command);
 
-        protected abstract Task<ProcessedOrder> SpecificHandle(T1? command);
 
     }
 }

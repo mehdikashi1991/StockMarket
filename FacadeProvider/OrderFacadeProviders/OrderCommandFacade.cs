@@ -12,11 +12,11 @@ namespace FacadeProvider.OrderFacadeProviders
 {
     public class OrderCommandFacade : IOrderCommandFacade
     {
-        private readonly IAddOrderCommandHandlers addOrderCommandHandlers;
+        private readonly ICommandHandler<AddOrderCommand> addOrderCommandHandlers;
         private readonly IModifieOrderCommandHandler modifieOrderCommandHandler;
         private readonly ICancellOrderCommandHandler cancellOrderCommandHandler;
         private readonly ICancellAllOrdersCommandHandler cancellAllOrderCommandHandler;
-
+        
         public OrderCommandFacade
             (
             IAddOrderCommandHandlers addOrderCommandHandlers,

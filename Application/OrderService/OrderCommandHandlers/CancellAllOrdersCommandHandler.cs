@@ -1,4 +1,5 @@
 ﻿using Application.Contract.CommandHandlerContracts;
+using Application.Contract.Commands;
 using Application.Factories;
 using Domain;
 using Domain.Contract.Orders.Repository.Command;
@@ -11,17 +12,17 @@ using Framework.Contracts.UnitOfWork;
 namespace Application.OrderService.OrderCommandHandlers
 {
 
-    public class CancellAllOrdersCommandHandler : CommandHandler<object>, ICancellAllOrdersCommandHandler
+    public class CancellAllOrdersCommandHandler : StockMarketCommandHandler<CancelAllOrderCommand>, ICommandHandler<CancelAllOrderCommand>
     {
         public CancellAllOrdersCommandHandler(IUnitOfWork unitOfWork, IStockMarketFactory stockMarketFactory, 
             IOrderCommandRepository orderCommandRepository,
             IOrderQueryRepository orderQueryRepository,
             ITradeCommandRepository tradeCommandRepository, 
-            ITradeQueryRespository tradeQueryRespository) : base(unitOfWork, stockMarketFactory, orderCommandRepository, orderQueryRepository, tradeCommandRepository, tradeQueryRespository)
+            ITradeQueryRespository tradeQueryRespository) : base(stockMarketFactory, orderCommandRepository, orderQueryRepository, tradeCommandRepository, tradeQueryRespository)
         {
         }
 
-        protected async override Task<ProcessedOrder> SpecificHandle(object? obj)
+        protected async override Task<ProcessedOrder> SpecificHandle(CancelAllOrderCommand command)
         {
             var allOrders = await _orderQuery.GetAll(x => x.Amount != 0 && x.OrderState != OrderStates.Cancell);
 

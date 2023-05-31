@@ -17,7 +17,7 @@ namespace Application.Tests
 {
 
     public abstract class CommandHandelerTest<THandler, TCommand>
-        where THandler : CommandHandler<TCommand>
+        where THandler : StockMarketCommandHandler<TCommand>
     {
         protected IUnitOfWork unitOfWorkMock;
         protected IOrderCommandRepository orderCommandRepositoryMock;

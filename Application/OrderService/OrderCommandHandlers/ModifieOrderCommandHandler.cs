@@ -15,13 +15,13 @@ using Framework.Contracts.UnitOfWork;
 
 namespace Application.OrderService.OrderCommandHandlers
 {
-    public class ModifieOrderCommandHandler : CommandHandler<ModifieOrderCommand>, IModifieOrderCommandHandler
+    public class ModifieOrderCommandHandler : StockMarketCommandHandler<ModifieOrderCommand>, ICommandHandler<ModifieOrderCommand>
     {
         public ModifieOrderCommandHandler(IUnitOfWork unitOfWork, IStockMarketFactory stockMarketFactory, 
             IOrderCommandRepository orderCommandRepository, 
             IOrderQueryRepository orderQueryRepository, 
             ITradeCommandRepository tradeCommandRepository, 
-            ITradeQueryRespository tradeQueryRespository) : base(unitOfWork, stockMarketFactory, orderCommandRepository, orderQueryRepository, tradeCommandRepository, tradeQueryRespository)
+            ITradeQueryRespository tradeQueryRespository) : base(stockMarketFactory, orderCommandRepository, orderQueryRepository, tradeCommandRepository, tradeQueryRespository)
         {
         }
 

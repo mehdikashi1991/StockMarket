@@ -1,4 +1,5 @@
 ﻿using Framework.Contracts.UnitOfWork;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure
 {
@@ -14,6 +15,11 @@ namespace Infrastructure
         public async ValueTask DisposeAsync()
         {
             await tradeMatchingEngineContext.DisposeAsync();
+        }
+
+        public async Task OpenConnectionAsync()
+        {
+            await tradeMatchingEngineContext.Database.OpenConnectionAsync().ConfigureAwait(false);
         }
 
         public async Task<int> SaveChange()

@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 using Xunit;
 using static Application.Tests.AddOrderCommandHandlerTests;
 using Domain.Orders.Entities;
+using Application.Contract.Commands;
 
 namespace Application.Tests
 {
-    public class CancellOrdersCommandHandlerTest : CommandHandelerTest<CancellOrderCommandHandler, long>
+    public class CancellOrdersCommandHandlerTest : CommandHandelerTest<CancellOrderCommandHandler, CancelOrderCommand>
     {
         private static readonly int SOME_AMOUNT = 10;
         private static readonly DateTime SOME_EXPIRATION_DATE = new DateTime(2050, 1, 1);
@@ -35,7 +36,7 @@ namespace Application.Tests
             await sut.Handle(addOrderCommand);
 
             //Assert
-            await stockMarket.Received(1).CancelOrderAsync(addOrderCommand);
+            await stockMarket.Received(1).CancelOrderAsync(addOrderCommand.Id);
         }
 
         [Fact]
@@ -58,7 +59,7 @@ namespace Application.Tests
 
             processContext.ModifiedOrders.Returns(new List<TestOrder> { order });
 
-            stockMarket.CancelOrderAsync(Arg.Is(addOrderCommand)).Returns(processContext);
+            stockMarket.CancelOrderAsync(Arg.Is(addOrderCommand.Id)).Returns(processContext);
 
             orderCommandRepositoryMock.Find(Arg.Any<long>()).Returns(order);
 
@@ -70,9 +71,9 @@ namespace Application.Tests
             await orderCommandRepositoryMock.Received(1).Find(processContext.ModifiedOrders.ToList().FirstOrDefault().Id);
         }
 
-        protected override long MakeSomeTCommand()
+        protected override CancelOrderCommand MakeSomeTCommand()
         {
-            return 1;
+            return new CancelOrderCommand() { Id=1};
         }
     }
 }

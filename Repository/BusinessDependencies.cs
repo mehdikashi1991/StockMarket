@@ -18,11 +18,44 @@ using Infrastructure.Trades.CommandRepositories;
 using Infrastructure.Trades.QueryRepositories;
 using Infrastructure.Orders.CommandRepositories;
 using Framework.Contracts.UnitOfWork;
+using Castle.Windsor;
+using Castle.MicroKernel.Registration;
+using Castle.Windsor.Extensions.DependencyInjection.Extensions;
+using Application.Contract.Commands;
 
 namespace Infrastructure
 {
     public static class BusinessDependencies
     {
+        public static void WindsorDependencyHolder(this IWindsorContainer container)
+        {
+            container.Register(
+           Component.For<ICommandHandler<AddOrderCommand>>().ImplementedBy<AddOrderCommandHandlers>()
+           .Named(typeof(AddOrderCommandHandlers).FullName).LifeStyle.ScopedToNetServiceScope(),
+           //Component.For<ICommandHandler<>>().ImplementedBy<TradeCommandRepository>()
+           //.Named(typeof(TradeCommandRepository).FullName).LifeStyle.ScopedToNetServiceScope(),
+           Component.For<ICommandHandler<ModifieOrderCommand>>().ImplementedBy<ModifieOrderCommandHandler>()
+           .Named(typeof(ModifieOrderCommandHandler).FullName).LifeStyle.ScopedToNetServiceScope(),
+           Component.For<ICommandHandler<CancelOrderCommand>>().ImplementedBy<CancellOrderCommandHandler>()
+           .Named(typeof(CancellOrderCommandHandler).FullName).LifeStyle.ScopedToNetServiceScope(),
+           Component.For<ICommandHandler<CancelAllOrderCommand>>().ImplementedBy<CancellAllOrdersCommandHandler>()
+           .Named(typeof(CancellAllOrdersCommandHandler).FullName).LifeStyle.ScopedToNetServiceScope()
+
+           // Component.For<ICancellAllOrdersCommandHandler>()
+           // .ImplementedBy<TransactionalCommandHandler<object, ICancellAllOrdersCommandHandler>>()
+           //.LifeStyle.ScopedToNetServiceScope(),
+
+           //Component.For<MyServiceA>()
+           //.DependsOn(Dependency.OnComponent<IMyService, ServiceA>()).LifestyleSingleton(),
+           //Component.For<MyServiceB>()
+           //.DependsOn(Dependency.OnComponent<IMyService, ServiceB>()).LifestyleSingleton(),
+           //Component.For(typeof(IServiceFactory<>))
+           //.ImplementedBy(typeof(ServiceFactory<>)).LifestyleTransient(),
+           //Component.For(typeof(IServiceFactory))
+           //.ImplementedBy(typeof(ServiceFactory)).LifestyleSingleton()
+
+           );
+        }
         public static IServiceCollection DependencyHolder(this IServiceCollection services)
         {
             services.AddDbContext<TradeMatchingEngineContext>(options =>
@@ -32,15 +65,15 @@ namespace Infrastructure
 
             services.AddScoped<IOrderCommandRepository, OrderCommandRepository>();
             services.AddScoped<IOrderQueryRepository, OrderQueryRepository>();
-            services.AddScoped<IAddOrderCommandHandlers, AddOrderCommandHandlers>();
-            services.AddScoped<ITradeCommandRepository, TradeCommandRepository>();
+           // services.AddScoped<IAddOrderCommandHandlers, AddOrderCommandHandlers>();
+            //services.AddScoped<ITradeCommandRepository, TradeCommandRepository>();
             //builder.Services.AddScoped(typeof(ICommandRepository<>), typeof(CommandRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ITradeQueryRespository, TradeQueryRepository>();
             services.AddSingleton<IStockMarketFactory, StockMarketFactory>();
-            services.AddScoped<IModifieOrderCommandHandler, ModifieOrderCommandHandler>();
-            services.AddScoped<ICancellOrderCommandHandler, CancellOrderCommandHandler>();
-            services.AddScoped<ICancellAllOrdersCommandHandler, CancellAllOrdersCommandHandler>();
+            //services.AddScoped<IModifieOrderCommandHandler, ModifieOrderCommandHandler>();
+            //services.AddScoped<ICancellOrderCommandHandler, CancellOrderCommandHandler>();
+            //services.AddScoped<ICancellAllOrdersCommandHandler, CancellAllOrdersCommandHandler>();
             return services;
         }
     }

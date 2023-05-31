@@ -10,7 +10,7 @@ using Framework.Contracts.UnitOfWork;
 
 namespace Application.Tests
 {
-    public class TestCommandHandler : CommandHandler<TestCommand>,ICallCounter
+    public class TestCommandHandler : StockMarketCommandHandler<TestCommand>,ICallCounter
     {
         public int CallCount { get; set; }
 
@@ -18,7 +18,7 @@ namespace Application.Tests
             IOrderCommandRepository orderCommandRepository, 
             IOrderQueryRepository orderQueryRepository,
             ITradeCommandRepository tradeCommandRepository, 
-            ITradeQueryRespository tradeQueryRespository) : base(unitOfWork, stockMarketFactory, orderCommandRepository, orderQueryRepository, tradeCommandRepository, tradeQueryRespository)
+            ITradeQueryRespository tradeQueryRespository) : base( stockMarketFactory, orderCommandRepository, orderQueryRepository, tradeCommandRepository, tradeQueryRespository)
         {
         }
 

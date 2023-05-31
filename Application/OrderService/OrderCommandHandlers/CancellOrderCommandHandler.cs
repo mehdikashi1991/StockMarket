@@ -1,4 +1,5 @@
 ﻿using Application.Contract.CommandHandlerContracts;
+using Application.Contract.Commands;
 using Application.Factories;
 using Domain;
 using Domain.Contract.Orders.Repository.Command;
@@ -9,19 +10,19 @@ using Framework.Contracts.UnitOfWork;
 
 namespace Application.OrderService.OrderCommandHandlers
 {
-    public class CancellOrderCommandHandler : CommandHandler<long>, ICancellOrderCommandHandler
+    public class CancellOrderCommandHandler : StockMarketCommandHandler<CancelOrderCommand>,ICommandHandler<CancelOrderCommand>
     {
         public CancellOrderCommandHandler(IUnitOfWork unitOfWork, IStockMarketFactory stockMarketFactory, 
             IOrderCommandRepository orderCommandRepository, 
             IOrderQueryRepository orderQueryRepository, 
             ITradeCommandRepository tradeCommandRepository,
-            ITradeQueryRespository tradeQueryRespository) : base(unitOfWork, stockMarketFactory, orderCommandRepository, orderQueryRepository, tradeCommandRepository, tradeQueryRespository)
+            ITradeQueryRespository tradeQueryRespository) : base(stockMarketFactory, orderCommandRepository, orderQueryRepository, tradeCommandRepository, tradeQueryRespository)
         {
         }
 
-        protected async override Task<ProcessedOrder> SpecificHandle(long orderId)
+        protected async override Task<ProcessedOrder> SpecificHandle(CancelOrderCommand command)
         {
-            var result = await this._stockMarketMatchEngine.CancelOrderAsync(orderId);
+            var result = await this._stockMarketMatchEngine.CancelOrderAsync(command.Id);
 
             foreach (var order in result.ModifiedOrders)
             {

@@ -10,7 +10,7 @@ using Framework.Contracts.UnitOfWork;
 
 namespace Application.OrderService.OrderCommandHandlers
 {
-    public class AddOrderCommandHandlers : CommandHandler<AddOrderCommand>, IAddOrderCommandHandlers
+    public class AddOrderCommandHandlers : StockMarketCommandHandler<AddOrderCommand>, ICommandHandler<AddOrderCommand>
     {
         public AddOrderCommandHandlers(IUnitOfWork unitOfWork, 
             IStockMarketFactory stockMarketFactory, 
@@ -18,7 +18,7 @@ namespace Application.OrderService.OrderCommandHandlers
             IOrderQueryRepository orderQueryRepository, 
             ITradeCommandRepository tradeCommandRepository,
             ITradeQueryRespository tradeQueryRespository) :
-            base(unitOfWork, stockMarketFactory, orderCommandRepository, orderQueryRepository, tradeCommandRepository, tradeQueryRespository)
+            base(stockMarketFactory, orderCommandRepository, orderQueryRepository, tradeCommandRepository, tradeQueryRespository)
         {
         }
         protected async override Task<ProcessedOrder> SpecificHandle(AddOrderCommand? command)
@@ -43,7 +43,5 @@ namespace Application.OrderService.OrderCommandHandlers
 
             return processedOrder;
         }
-
-
     }
 }

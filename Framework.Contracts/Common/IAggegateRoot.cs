@@ -5,10 +5,10 @@ namespace Framework.Contracts.Common
     public interface IAggegateRoot
     {
         public long Id { get; }
-        IEnumerable<IEvent> DomainEvents { get; }
+        IEnumerable<IDomainEvent> DomainEvents { get; }
 
-        void AddDomainEvent(IEvent eventItem);
+        void AddDomainEvent(IDomainEvent eventItem);
         void ClearEvents();
-        void RemoveDomainEvent(IEvent eventItem);
+        void RemoveDomainEvent(IDomainEvent eventItem);
     }
 }

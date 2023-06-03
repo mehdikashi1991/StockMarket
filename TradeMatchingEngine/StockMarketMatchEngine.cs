@@ -70,7 +70,10 @@ namespace Domain
         #region Private Method
         private Order createOrderRequest(StockMarketMatchingEngineProcessContext processContext, int price, int amount, Side side, DateTime? expireTime, bool? fillAndKill, long? OrderParentId = null)
         {
-            var order = new Order(id: setId(), side: side, price: price, amount: amount, expireTime: expireTime ?? DateTime.MaxValue, orderState: OrderStates.Register,isFillAndKill: fillAndKill, orderParentId: OrderParentId);
+            var order = new Order(id: setId(), side: side, price: price,
+                amount: amount, expireTime: expireTime ?? DateTime.MaxValue,
+                orderState: OrderStates.Register, isNewOrder: true,
+                isFillAndKill: fillAndKill, orderParentId: OrderParentId);
 
             processContext.OrderCreated(order);
 
@@ -293,11 +296,11 @@ namespace Domain
         {
             var processContext = new StockMarketMatchingEngineProcessContext();
 
-            var cancelledOrder= cancelOrderAsync(orderId, processContext);
+            var cancelledOrder = cancelOrderAsync(orderId, processContext);
 
             var orderSide = allOrders.Where(o => o.Id == orderId).Single().Side;
 
-            preProcessOrderAsync(price, amount, orderSide, expirationDate,processContext: cancelledOrder as StockMarketMatchingEngineProcessContext);
+            preProcessOrderAsync(price, amount, orderSide, expirationDate, processContext: cancelledOrder as StockMarketMatchingEngineProcessContext);
 
             return processContext;
         }

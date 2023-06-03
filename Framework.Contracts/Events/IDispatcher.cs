@@ -2,8 +2,8 @@
 
 namespace L02Application
 {
-    public interface IDispatcher<T> where T : IEvent
+    public interface IDispatcher
     {
-        public void Dispatch(T domainEvent);
+        public void Dispatch<T>(T domainEvent) where T : class, IDomainEvent;
     }
 }

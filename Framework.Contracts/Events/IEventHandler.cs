@@ -1,6 +1,6 @@
 ﻿namespace Framework.Contracts.Events
 {
-    public interface IEventHandler<T> where T : IEvent
+    public interface IDomainEventHandler<T> where T : IDomainEvent
     {
         void Handle(T Event);
     }

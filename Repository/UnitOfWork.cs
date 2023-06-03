@@ -1,5 +1,7 @@
-﻿using Framework.Contracts.UnitOfWork;
+﻿using Framework.Contracts.Common;
+using Framework.Contracts.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
+using System.Transactions;
 
 namespace Infrastructure
 {
@@ -15,6 +17,17 @@ namespace Infrastructure
         public async ValueTask DisposeAsync()
         {
             await tradeMatchingEngineContext.DisposeAsync();
+        }
+
+        public void EnlistTransaction(CommittableTransaction transaction)
+        {
+            tradeMatchingEngineContext.Database.EnlistTransaction(transaction);
+        }
+
+        public IEnumerable<IAggegateRoot> GetModifiedAggregateRoots()
+        {
+            return tradeMatchingEngineContext.ChangeTracker.Entries<IAggegateRoot>()
+                .Select(x => x.Entity).ToArray();
         }
 
         public async Task OpenConnectionAsync()

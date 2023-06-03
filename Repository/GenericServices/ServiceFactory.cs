@@ -14,7 +14,9 @@ namespace Infrastructure.GenericServices
 
         public IEnumerable<T> GetServices<T>()
         {
-            return container.ResolveAll<T>();
+            var typ = typeof(T);
+            var services = container.ResolveAll<T>();
+            return services;
         }
     }
 }

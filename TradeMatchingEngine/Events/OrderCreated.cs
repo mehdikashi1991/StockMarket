@@ -3,7 +3,7 @@ using Framework.Contracts.Events;
 
 namespace Domain.Events
 {
-    public class OrderCreated : IEvent
+    public class OrderCreated : IDomainEvent
     {
         public IOrder Order { get; }
         public OrderCreated(IOrder order)

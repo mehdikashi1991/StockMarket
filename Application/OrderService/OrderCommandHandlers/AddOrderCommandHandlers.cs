@@ -6,7 +6,6 @@ using Domain.Contract.Orders.Repository.Command;
 using Domain.Contract.Orders.Repository.Query;
 using Domain.Contract.Trades.Repository.Command;
 using Domain.Contract.Trades.Repository.Query;
-using Domain.Events;
 using Framework.Contracts.UnitOfWork;
 using L02Application;
 
@@ -14,17 +13,16 @@ namespace Application.OrderService.OrderCommandHandlers
 {
     public class AddOrderCommandHandlers : StockMarketCommandHandler<AddOrderCommand>, ICommandHandler<AddOrderCommand>
     {
-        private readonly IDispatcher<OrderCreated> OrderDispatcher;
+        private readonly IDispatcher OrderDispatcher;
         public AddOrderCommandHandlers(IUnitOfWork unitOfWork,
                                        IStockMarketFactory stockMarketFactory,
                                        IOrderCommandRepository orderCommandRepository,
                                        IOrderQueryRepository orderQueryRepository,
                                        ITradeCommandRepository tradeCommandRepository,
-                                       ITradeQueryRespository tradeQueryRespository,
-                                       IDispatcher<OrderCreated> orderDispatcher) :
+                                       ITradeQueryRespository tradeQueryRespository) :
             base(stockMarketFactory, orderCommandRepository, orderQueryRepository, tradeCommandRepository, tradeQueryRespository)
         {
-            OrderDispatcher = orderDispatcher;
+
         }
         protected async override Task<ProcessedOrder> SpecificHandle(AddOrderCommand? command)
         {
@@ -32,10 +30,6 @@ namespace Application.OrderService.OrderCommandHandlers
 
             await _orderCommandRepository.Add(result.Order);
 
-            foreach (var domainEvent in result.Order.DomainEvents)
-            {
-                OrderDispatcher.Dispatch((OrderCreated)domainEvent);
-            }
 
             foreach (var order in result.ModifiedOrders)
             {

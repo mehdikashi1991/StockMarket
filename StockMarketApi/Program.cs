@@ -3,9 +3,7 @@ using Castle.Windsor.Extensions.DependencyInjection;
 using Facade.Contract;
 using FacadeProvider.OrderFacadeProviders;
 using FacadeProvider.TradeFacadeProvider;
-using Framework.Contracts.Common;
 using Infrastructure;
-using Infrastructure.GenericServices;
 
 namespace StockMarketApi
 {
@@ -29,7 +27,7 @@ namespace StockMarketApi
 
             });
 
-            builder.Services.AddScoped<IServiceFactory, ServiceFactory>();
+
             builder.Services.DependencyHolder();
             builder.Services.AddScoped<IOrderCommandFacade, OrderCommandFacade>();
             builder.Services.AddScoped<IOrderQueryFacade, OrderQueryFacade>();

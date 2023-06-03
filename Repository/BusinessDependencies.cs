@@ -11,8 +11,10 @@ using Domain.Contract.Orders.Repository.Query;
 using Domain.Contract.Trades.Repository.Command;
 using Domain.Contract.Trades.Repository.Query;
 using Domain.Events;
+using Framework.Contracts.Common;
 using Framework.Contracts.Events;
 using Framework.Contracts.UnitOfWork;
+using Infrastructure.GenericServices;
 using Infrastructure.Orders.CommandRepositories;
 using Infrastructure.Orders.QueryRepositories;
 using Infrastructure.Trades.CommandRepositories;
@@ -48,6 +50,7 @@ namespace Infrastructure
                 })
             {
                 var t = typeof(TransactionalCommandHandler<>).MakeGenericType(new Type[1] { item.Value.Item2 });
+                var c = t.Name;
                 container.Register(
                     Component.For(item.Key).ImplementedBy(item.Value.Item1).Named(INTERNAL_CMD_HANDLER_NAME + item.Value.Item1.Name).LifeStyle.ScopedToNetServiceScope()
                    , Component.For(item.Key).ImplementedBy(t)
@@ -68,8 +71,9 @@ namespace Infrastructure
             services.AddScoped<ITradeQueryRespository, TradeQueryRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IStockMarketFactory, StockMarketFactory>();
-            services.AddScoped<IEventHandler<OrderCreated>, DomainEventHandler>();
-            services.AddScoped<IDispatcher<OrderCreated>, GenericDispatche<OrderCreated>>();
+            services.AddScoped<IDomainEventHandler<OrderCreated>, DomainEventHandler>();
+            services.AddScoped<IDispatcher, GenericDispatcher>();
+            services.AddScoped<IServiceFactory, ServiceFactory>();
             return services;
         }
     }

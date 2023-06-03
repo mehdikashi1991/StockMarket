@@ -8,7 +8,20 @@ namespace Domain.Orders.Entities
     {
         private OrderStates state;
 
-        internal Order(long id, Side side, int price, int amount, DateTime expireTime, OrderStates? orderState, int? originalAmount = null, bool? isFillAndKill = null, long? orderParentId = null)
+        internal Order(long id, Side side, int price, int amount, DateTime expireTime,
+            OrderStates? orderState,
+            int? originalAmount = null,
+            bool? isFillAndKill = null, long? orderParentId = null) :
+            this(id, side, price, amount, expireTime,
+            orderState, false,
+            originalAmount,
+            isFillAndKill, orderParentId)
+        {
+        }
+        internal Order(long id, Side side, int price, int amount, DateTime expireTime,
+        OrderStates? orderState, bool isNewOrder = false,
+        int? originalAmount = null,
+        bool? isFillAndKill = null, long? orderParentId = null)
         {
             Id = id;
             Side = side;
@@ -19,7 +32,8 @@ namespace Domain.Orders.Entities
             ExpireTime = expireTime;
             state = orderState == null ? OrderStates.Register : (OrderStates)orderState;
             OrderParentId = orderParentId;
-            AddDomainEvent(new OrderCreated(this));
+            if (isNewOrder)
+                AddDomainEvent(new OrderCreated(this));
         }
 
         public OrderStates? OrderState { get { return state; } private set { value = state; } }
@@ -82,7 +96,7 @@ namespace Domain.Orders.Entities
         }
         internal Order Clone(int originalAmount)
         {
-            return new Order(Id, Side, Price, Amount, ExpireTime, OrderState, originalAmount, IsFillAndKill, OrderParentId);
+            return new Order(Id, Side, Price, Amount, ExpireTime, OrderState, false, originalAmount, IsFillAndKill, OrderParentId);
         }
     }
 }

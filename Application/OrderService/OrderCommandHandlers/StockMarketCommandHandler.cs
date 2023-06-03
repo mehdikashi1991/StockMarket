@@ -5,8 +5,6 @@ using Domain.Contract.Orders.Repository.Command;
 using Domain.Contract.Orders.Repository.Query;
 using Domain.Contract.Trades.Repository.Command;
 using Domain.Contract.Trades.Repository.Query;
-using Framework.Contracts.UnitOfWork;
-using System.Runtime.CompilerServices;
 using System.Transactions;
 
 namespace Application.OrderService.OrderCommandHandlers
@@ -25,12 +23,13 @@ namespace Application.OrderService.OrderCommandHandlers
             _orderCommandRepository = orderCommandRepository;
             _orderQuery = orderQueryRepository;
             _tradeCommandRepository = tradeCommandRepository;
+            _tradeQuery = tradeQueryRespository;
         }
         public async Task<ProcessedOrder?> Handle(T1 command)
         {
             _stockMarketMatchEngine = await _stockMarketFactory.GetStockMarket(_orderQuery, _tradeQuery);
             using var scope = new TransactionScope(TransactionScopeOption.Required,
-                new TransactionOptions { IsolationLevel=IsolationLevel.ReadCommitted},TransactionScopeAsyncFlowOption.Enabled);
+                new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted }, TransactionScopeAsyncFlowOption.Enabled);
             var result = await SpecificHandle(command);
             return result;
         }

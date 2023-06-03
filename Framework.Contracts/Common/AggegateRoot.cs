@@ -4,12 +4,12 @@ namespace Framework.Contracts.Common
 {
     public abstract class AggegateRoot : IAggegateRoot
     {
-        private readonly List<IEvent> domainEvents = new();
+        private readonly List<IDomainEvent> domainEvents = new();
 
         public abstract long Id { get; }
-        public IEnumerable<IEvent> DomainEvents => domainEvents;
+        public IEnumerable<IDomainEvent> DomainEvents => domainEvents;
 
-        public void AddDomainEvent(IEvent eventItem)
+        public void AddDomainEvent(IDomainEvent eventItem)
         {
             domainEvents.Add(eventItem);
         }
@@ -19,7 +19,7 @@ namespace Framework.Contracts.Common
             domainEvents.Clear();
         }
 
-        public void RemoveDomainEvent(IEvent eventItem)
+        public void RemoveDomainEvent(IDomainEvent eventItem)
         {
             domainEvents.Remove(eventItem);
         }

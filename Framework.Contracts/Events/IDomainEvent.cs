@@ -1,6 +1,7 @@
 ﻿namespace Framework.Contracts.Events
 {
-    public interface IEvent
+    public interface IDomainEvent
     {
     }
+
 }

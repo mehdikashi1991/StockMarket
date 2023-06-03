@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 namespace Application.EventHandlers
 {
     public class DomainEventHandler :
-        IEventHandler<OrderCreated>
+        IDomainEventHandler<OrderCreated>
 
     {
         private readonly ILogger logger;

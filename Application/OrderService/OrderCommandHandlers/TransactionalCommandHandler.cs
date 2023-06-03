@@ -37,20 +37,19 @@ namespace Application.OrderService.OrderCommandHandlers
             {
                 foreach (var domainEvent in aggregateRoot.DomainEvents)
                 {
-                    MethodInfo genricMethod =
-                        MakeGenericMethodByName(dispatcher.GetType(), "Dispatch", domainEvent.GetType());
-
-                    genricMethod.Invoke(dispatcher, new object[] { domainEvent });
-
-
-                    //dispatcher.Dispatch(domainEvent);
+                    dispatcher.GetType().MakeGenericMethodByName("Dispatch", domainEvent.GetType())
+                     .Invoke(dispatcher, new object[] { domainEvent });
                 }
             }
             transaction.Commit();
             return result;
         }
 
-        private MethodInfo MakeGenericMethodByName(Type type, string methodName, Type genericArgumentType)
+
+    }
+    public static class ReflectionHelper
+    {
+        public static MethodInfo MakeGenericMethodByName(this Type type, string methodName, Type genericArgumentType)
         {
             var dispatchMethodInfo = type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
                                     .Where(mi => mi.Name == methodName)

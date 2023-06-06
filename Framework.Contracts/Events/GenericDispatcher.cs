@@ -1,5 +1,6 @@
-﻿using Framework.Contracts.Common;
-using L02Application;
+﻿
+
+using Framework.Contracts.Common;
 
 namespace Framework.Contracts.Events
 {

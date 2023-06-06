@@ -1,5 +1,7 @@
-﻿using System;
-using Domain.Orders.Entities;
+﻿using Domain.Orders.Entities;
+using Framework.Contracts.Events;
+using System;
+using System.Collections.Generic;
 
 namespace Application.Tests
 {
@@ -28,12 +30,29 @@ namespace Application.Tests
 
         public Side Side { get; set; }
 
+        public IEnumerable<IDomainEvent> DomainEvents => throw new NotImplementedException();
+
+        public void AddDomainEvent(IDomainEvent eventItem)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ClearEvents()
+        {
+            throw new NotImplementedException();
+        }
+
         public int DecreaseAmount(int amount)
         {
             throw new NotImplementedException();
         }
 
         public OrderStates GetOrderState()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveDomainEvent(IDomainEvent eventItem)
         {
             throw new NotImplementedException();
         }

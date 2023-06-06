@@ -1,4 +1,6 @@
 ﻿using Domain.Trades.Entities;
+using Framework.Contracts.Events;
+using System.Collections.Generic;
 
 namespace Application.Tests
 {
@@ -13,5 +15,22 @@ namespace Application.Tests
         public long SellOrderId { get; set; }
 
         public long Id { get; set; }
+
+        public IEnumerable<IDomainEvent> DomainEvents => throw new System.NotImplementedException();
+
+        public void AddDomainEvent(IDomainEvent eventItem)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void ClearEvents()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void RemoveDomainEvent(IDomainEvent eventItem)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

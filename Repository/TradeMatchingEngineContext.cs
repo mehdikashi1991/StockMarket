@@ -32,6 +32,7 @@ namespace Infrastructure
                 b.Property(o => o.OrderState).HasConversion<int>();
                 b.Property(o => o.OrderParentId);
                 b.Property(o => o.Side).HasConversion<int>();
+                b.Ignore("domainEvents");
             });
 
 
@@ -48,7 +49,7 @@ namespace Infrastructure
                 b.HasOne<Order>().WithMany().HasForeignKey(t => t.SellOrderId).IsRequired().OnDelete(DeleteBehavior.Restrict);
                 b.Property(o => o.SellOrderId);
                 b.Property(o => o.BuyOrderId);
-                // b.Property(o => o.OwnerId);
+                b.Ignore("domainEvents");
             });
 
         }

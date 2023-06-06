@@ -6,8 +6,8 @@ using Domain.Contract.Orders.Repository.Command;
 using Domain.Contract.Orders.Repository.Query;
 using Domain.Contract.Trades.Repository.Command;
 using Domain.Contract.Trades.Repository.Query;
+using Framework.Contracts.Events;
 using Framework.Contracts.UnitOfWork;
-using L02Application;
 
 namespace Application.OrderService.OrderCommandHandlers
 {

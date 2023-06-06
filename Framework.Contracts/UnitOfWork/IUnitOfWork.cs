@@ -1,13 +1,11 @@
 ﻿using Framework.Contracts.Common;
-using System.Transactions;
 
 namespace Framework.Contracts.UnitOfWork
 {
     public interface IUnitOfWork : IAsyncDisposable
     {
-        void EnlistTransaction(CommittableTransaction transaction);
+        Task<ITransactionService> BeginTransactionAsync();
         IEnumerable<IAggegateRoot> GetModifiedAggregateRoots();
-        Task OpenConnectionAsync();
         Task<int> SaveChange();
     }
 }

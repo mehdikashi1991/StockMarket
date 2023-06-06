@@ -1,9 +1,10 @@
-using Facade.Contract;
-using Messages;
-using MessageFacadeProvider;
-using Framework.Contracts;
-using MessageNserviceBus;
+using Castle.Windsor.Extensions.DependencyInjection;
 using EndPoints.Controller;
+using Facade.Contract;
+using Framework.Contracts;
+using MessageFacadeProvider;
+using MessageNserviceBus;
+using Messages;
 
 namespace ApiGateway
 {
@@ -12,7 +13,7 @@ namespace ApiGateway
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            builder.Host.UseServiceProviderFactory(new WindsorServiceProviderFactory());
             builder.Host.UseNServiceBus(ctx =>
             {
                 var endpointConfiguration = new EndpointConfiguration("ApiGateway");
@@ -25,7 +26,7 @@ namespace ApiGateway
 
             });
 
-            
+
 
             builder.Services.AddScoped<IMessageService, MessageSender>();
             builder.Services.AddScoped<IOrderQueryFacade, ProxyOrderFacadeQueryService>();
@@ -33,7 +34,7 @@ namespace ApiGateway
             builder.Services.AddScoped<ITradeQueryFacade, ProxyTradeFacadeQueryService>();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            
+
             builder.Services.AddMvc();
             builder.Services
                     .AddControllers()
@@ -42,7 +43,7 @@ namespace ApiGateway
 
 
 
-            var app=builder.Build();
+            var app = builder.Build();
 
             app.UseSwagger();
             app.UseSwaggerUI();
@@ -64,7 +65,7 @@ namespace ApiGateway
             });
 
             app.MapControllers();
-            app.Run();          
+            app.Run();
         }
 
     }

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Concurrent;
 
 namespace Framework.Contracts
 {
-    public partial class BlockingQueue : IAsyncDisposable
+    public partial class BlockingQueue : IAsyncDisposable, IDisposable
     {
         private readonly BlockingCollection<ICommand> blockingCollection;
         private readonly Task mainTask;
@@ -31,6 +26,11 @@ namespace Framework.Contracts
 
                 }
             });
+        }
+
+        public void Dispose()
+        {
+            DisposeAsync().ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         public async ValueTask DisposeAsync()

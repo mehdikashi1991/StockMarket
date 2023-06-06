@@ -1,5 +1,4 @@
-﻿using Application.Contract.CommandHandlerContracts;
-using Application.Contract.Commands;
+﻿using Application.Contract.Commands;
 using Domain;
 using Facade.Contract;
 using Framework.Contracts;
@@ -7,14 +6,14 @@ using Messages;
 
 namespace MessageFacadeProvider
 {
-    public class OrderMessageCommandFacade:IOrderCommandFacade
+    public class OrderMessageCommandFacade : IOrderCommandFacade, IAsyncDisposable, IDisposable
     {
         IMessageService messageService;
         public OrderMessageCommandFacade(IMessageService messageService)
         {
             this.messageService = messageService;
         }
-     
+
 
         public async Task<ProcessedOrder> CancelAllOrders(object obj)
         {
@@ -24,18 +23,27 @@ namespace MessageFacadeProvider
             return new ProcessedOrder();
         }
 
-       
+
 
         public async Task<ProcessedOrder> CancelOrder(CancelOrderCommand command)
         {
-            var message=new CancelOrderCommandMessage() { Id=command.Id};
+            var message = new CancelOrderCommandMessage() { Id = command.Id };
 
             await messageService.SendMessageAsync(message);
             return new ProcessedOrder();
-        }      
-       
+        }
 
-       public async Task<ProcessedOrder> ModifyOrder(ModifieOrderCommand orderCommand)
+        public void Dispose()
+        {
+            DisposeAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            await Task.CompletedTask;
+        }
+
+        public async Task<ProcessedOrder> ModifyOrder(ModifieOrderCommand orderCommand)
         {
             var message = new ModifyOrderCommandMessage()
             {

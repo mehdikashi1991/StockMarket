@@ -11,6 +11,7 @@ using Domain.Contract.Orders.Repository.Query;
 using Domain.Contract.Trades.Repository.Command;
 using Domain.Contract.Trades.Repository.Query;
 using Domain.Events;
+using Framework.Contracts;
 using Framework.Contracts.Common;
 using Framework.Contracts.Events;
 using Framework.Contracts.UnitOfWork;
@@ -19,7 +20,6 @@ using Infrastructure.Orders.CommandRepositories;
 using Infrastructure.Orders.QueryRepositories;
 using Infrastructure.Trades.CommandRepositories;
 using Infrastructure.Trades.QueryRepositories;
-using L02Application;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -57,12 +57,20 @@ namespace Infrastructure
                     .DependsOn(Dependency.OnComponent(item.Key, INTERNAL_CMD_HANDLER_NAME + item.Value.Item1.Name)).LifeStyle.ScopedToNetServiceScope().IsDefault()
                     );
             }
+            container.Register(
+                Component.For<IDbConnectionService>().ImplementedBy<DbConnectionManager>()
+                .DependsOn(Dependency.OnValue<string>(
+                "Server=.;Initial Catalog=TradeMatchingEngine;Integrated " +
+                "Security=true;Persist Security Info=False;MultipleActiveResultSets=False;Encrypt=False;" +
+                "TrustServerCertificate=False;Connection Timeout=30;"))
+                .LifeStyle.ScopedToNetServiceScope().Forward<ITransactionService>());
         }
         public static IServiceCollection DependencyHolder(this IServiceCollection services)
         {
-            services.AddDbContext<TradeMatchingEngineContext>(options =>
+            services.AddDbContextFactory<TradeMatchingEngineContext>((sp, ob) =>
             {
-                options.UseSqlServer("Server=.;Initial Catalog=TradeMatchingEngine;Integrated Security=true;Persist Security Info=False;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Connection Timeout=30;");
+                ob.UseSqlServer(sp.GetRequiredService<IDbConnectionService>().GetConnectionAsync().GetAwaiter().GetResult());
+                //options.UseSqlServer("Server=.;Initial Catalog=TradeMatchingEngine;Integrated Security=true;Persist Security Info=False;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Connection Timeout=30;");
             });
 
             services.AddScoped<IOrderCommandRepository, OrderCommandRepository>();

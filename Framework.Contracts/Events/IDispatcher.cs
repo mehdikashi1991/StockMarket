@@ -1,6 +1,4 @@
-﻿using Framework.Contracts.Events;
-
-namespace L02Application
+﻿namespace Framework.Contracts.Events
 {
     public interface IDispatcher
     {

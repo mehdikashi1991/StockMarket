@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Castle.Windsor.Extensions.DependencyInjection" Version="5.1.2" />
     <PackageReference Include="NServiceBus" Version="8.0.3" />
     <PackageReference Include="NServiceBus.Extensions.Hosting" Version="2.0.0" />
     <PackageReference Include="NServiceBus.Heartbeat" Version="4.0.0" />

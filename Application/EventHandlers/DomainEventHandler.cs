@@ -16,7 +16,7 @@ namespace Application.EventHandlers
 
         public void Handle(OrderCreated Event)
         {
-            logger.LogWarning("Order Created Event Handled By FirstOrder{} With ID: {} \n", nameof(DomainEventHandler), Event.Order.Id);
+            logger.LogCritical("Order Created Event Handled By FirstOrder{} With ID: {} \n", nameof(DomainEventHandler), Event.Order.Id);
         }
 
 

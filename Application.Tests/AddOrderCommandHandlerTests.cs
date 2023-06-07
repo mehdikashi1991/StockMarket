@@ -10,7 +10,7 @@ using Domain.Orders.Entities;
 
 namespace Application.Tests
 {
-    public partial class AddOrderCommandHandlerTests : CommandHandelerTest<AddOrderCommandHandlers, AddOrderCommand>
+    public partial class AddOrderCommandHandlerTests : CommandHandelerTest<AddOrderCommandHandler, AddOrderCommand>
     {
         private static readonly int SOME_AMOUNT = 10;
         private static readonly DateTime SOME_EXPIRATION_DATE = new DateTime(2050, 1, 1);

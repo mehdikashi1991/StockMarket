@@ -11,10 +11,10 @@ using Framework.Contracts.UnitOfWork;
 
 namespace Application.OrderService.OrderCommandHandlers
 {
-    public class AddOrderCommandHandlers : StockMarketCommandHandler<AddOrderCommand>, ICommandHandler<AddOrderCommand>
+    public class AddOrderCommandHandler : StockMarketCommandHandler<AddOrderCommand>, ICommandHandler<AddOrderCommand>
     {
         private readonly IDispatcher OrderDispatcher;
-        public AddOrderCommandHandlers(IUnitOfWork unitOfWork,
+        public AddOrderCommandHandler(IUnitOfWork unitOfWork,
                                        IStockMarketFactory stockMarketFactory,
                                        IOrderCommandRepository orderCommandRepository,
                                        IOrderQueryRepository orderQueryRepository,

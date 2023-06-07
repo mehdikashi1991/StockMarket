@@ -33,7 +33,7 @@ namespace Infrastructure
             foreach (var item in new Dictionary<Type, (Type, Type)> {
                 {
                     typeof(ICommandHandler<AddOrderCommand>),
-                    (typeof(AddOrderCommandHandlers),typeof(AddOrderCommand))
+                    (typeof(AddOrderCommandHandler),typeof(AddOrderCommand))
                 },
                 {
                     typeof(ICommandHandler<ModifieOrderCommand>),
@@ -60,13 +60,15 @@ namespace Infrastructure
             container.Register(
                 Component.For<IDbConnectionService>().ImplementedBy<DbConnectionManager>()
                 .DependsOn(Dependency.OnValue<string>(
-                "Server=.;Initial Catalog=TradeMatchingEngine;Integrated " +
-                "Security=true;Persist Security Info=False;MultipleActiveResultSets=False;Encrypt=False;" +
+                "Server=.;Initial Catalog=TradeMatchingEngine;" +
+                "Integrated Security=true;Persist Security Info=False;" +
+                "MultipleActiveResultSets=False;Encrypt=False;" +
                 "TrustServerCertificate=False;Connection Timeout=30;"))
                 .LifeStyle.ScopedToNetServiceScope().Forward<ITransactionService>());
         }
         public static IServiceCollection DependencyHolder(this IServiceCollection services)
         {
+
             services.AddDbContextFactory<TradeMatchingEngineContext>((sp, ob) =>
             {
                 ob.UseSqlServer(sp.GetRequiredService<IDbConnectionService>().GetConnectionAsync().GetAwaiter().GetResult());

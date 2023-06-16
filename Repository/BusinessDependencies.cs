@@ -49,13 +49,19 @@ namespace Infrastructure
                 },
                 })
             {
-                var t = typeof(TransactionalCommandHandler<>).MakeGenericType(new Type[1] { item.Value.Item2 });
-                var c = t.Name;
-                container.Register(
-                    Component.For(item.Key).ImplementedBy(item.Value.Item1).Named(INTERNAL_CMD_HANDLER_NAME + item.Value.Item1.Name).LifeStyle.ScopedToNetServiceScope()
-                   , Component.For(item.Key).ImplementedBy(t)
-                    .DependsOn(Dependency.OnComponent(item.Key, INTERNAL_CMD_HANDLER_NAME + item.Value.Item1.Name)).LifeStyle.ScopedToNetServiceScope().IsDefault()
-                    );
+
+                regiterCommandHandlerWithDecorator(container,
+                    commandType: item.Value.Item2,
+                    handlerInterface: item.Key,
+                    handlerConcreteType: item.Value.Item1);
+
+                //var t = typeof(TransactionalCommandHandler<>).MakeGenericType(new Type[1] { item.Value.Item2 });
+                //var c = t.Name;
+                //container.Register(
+                //    Component.For(item.Key).ImplementedBy(item.Value.Item1).Named(INTERNAL_CMD_HANDLER_NAME + item.Value.Item1.Name).LifeStyle.ScopedToNetServiceScope()
+                //   , Component.For(item.Key).ImplementedBy(t)
+                //    .DependsOn(Dependency.OnComponent(item.Key, INTERNAL_CMD_HANDLER_NAME + item.Value.Item1.Name)).LifeStyle.ScopedToNetServiceScope().IsDefault()
+                //    );
             }
             container.Register(
                 Component.For<IDbConnectionService>().ImplementedBy<DbConnectionManager>()
@@ -85,6 +91,19 @@ namespace Infrastructure
             services.AddScoped<IDispatcher, GenericDispatcher>();
             services.AddScoped<IServiceFactory, ServiceFactory>();
             return services;
+        }
+
+        private static void regiterCommandHandlerWithDecorator(IWindsorContainer container,
+           Type commandType, Type handlerInterface, Type handlerConcreteType)
+        {
+            var t = typeof(TransactionalCommandHandler<>).MakeGenericType(new Type[1] { commandType });
+            container.Register(
+                Component.For(handlerInterface).ImplementedBy(handlerConcreteType)
+                .Named(INTERNAL_CMD_HANDLER_NAME + handlerConcreteType.Name).LifeStyle.ScopedToNetServiceScope()
+               , Component.For(handlerInterface).ImplementedBy(t)
+                .DependsOn(Dependency.OnComponent(handlerInterface, INTERNAL_CMD_HANDLER_NAME + handlerConcreteType.Name))
+                .LifeStyle.ScopedToNetServiceScope().IsDefault()
+                );
         }
     }
 }

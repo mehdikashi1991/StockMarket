@@ -14,6 +14,22 @@ namespace MessageFacadeProvider
             this.messageService = messageService;
         }
 
+        public async Task<ProcessedOrder> ProcessOrder(AddOrderCommand orderCommand)
+        {
+            var message = new AddOrderCommandMessage()
+            {
+                Side = orderCommand.Side.ToMessage(),
+                Amount = orderCommand.Amount,
+                Price = orderCommand.Price,
+                IsFillAndKill = orderCommand.IsFillAndKill,
+                ExpireTime = (DateTime)orderCommand.ExpDate
+
+            };
+
+            await messageService.SendMessageAsync(message);
+
+            return new ProcessedOrder();
+        }
 
         public async Task<ProcessedOrder> CancelAllOrders(object obj)
         {
@@ -56,21 +72,6 @@ namespace MessageFacadeProvider
             return new ProcessedOrder();
         }
 
-        public async Task<ProcessedOrder> ProcessOrder(AddOrderCommand orderCommand)
-        {
-            var message = new AddOrderCommandMessage()
-            {
-                Side = orderCommand.Side.ToMessage(),
-                Amount = orderCommand.Amount,
-                Price = orderCommand.Price,
-                IsFillAndKill = orderCommand.IsFillAndKill,
-                ExpireTime = (DateTime)orderCommand.ExpDate
 
-            };
-
-            await messageService.SendMessageAsync(message);
-
-            return new ProcessedOrder();
-        }
     }
 }

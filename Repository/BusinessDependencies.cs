@@ -50,7 +50,9 @@ namespace Infrastructure
                 })
             {
                 var t = typeof(TransactionalCommandHandler<>).MakeGenericType(new Type[1] { item.Value.Item2 });
+
                 var c = t.Name;
+
                 container.Register(
                     Component.For(item.Key).ImplementedBy(item.Value.Item1).Named(INTERNAL_CMD_HANDLER_NAME + item.Value.Item1.Name).LifeStyle.ScopedToNetServiceScope()
                    , Component.For(item.Key).ImplementedBy(t)

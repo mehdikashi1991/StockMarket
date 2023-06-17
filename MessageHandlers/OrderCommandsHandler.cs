@@ -1,26 +1,20 @@
 ﻿using Application.Contract.Commands;
-using Domain;
 using Facade.Contract;
 using Messages;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MessageHandlers
 {
-    public class OrderCommandsHandler : 
+    public class OrderCommandsHandler :
         IHandleMessages<AddOrderCommandMessage>,
         IHandleMessages<ModifyOrderCommandMessage>,
         IHandleMessages<CancelOrderCommandMessage>,
         IHandleMessages<CancelAllOrderCommandMessage>
-        
+
     {
         private readonly IOrderCommandFacade orderFacade;
         private readonly IOrderQueryFacade _orderQueryFacade;
 
-        public  OrderCommandsHandler
+        public OrderCommandsHandler
 
             (
             IOrderCommandFacade orderFacade,
@@ -43,9 +37,9 @@ namespace MessageHandlers
                 Price = message.Price,
                 IsFillAndKill = (bool)message.IsFillAndKill,
             };
-           
-           var result= await orderFacade.ProcessOrder(command );
-            
+
+            var result = await orderFacade.ProcessOrder(command);
+
         }
 
         public async Task Handle(ModifyOrderCommandMessage message, IMessageHandlerContext context)
@@ -65,10 +59,10 @@ namespace MessageHandlers
 
         public async Task Handle(CancelOrderCommandMessage message, IMessageHandlerContext context)
         {
-            
-            var command=new CancelOrderCommand() { Id=message.Id };
 
-            var result=await orderFacade.CancelOrder(command);
+            var command = new CancelOrderCommand() { Id = message.Id };
+
+            var result = await orderFacade.CancelOrder(command);
 
 
         }

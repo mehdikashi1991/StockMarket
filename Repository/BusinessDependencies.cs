@@ -27,9 +27,23 @@ namespace Infrastructure
 {
     public static class BusinessDependencies
     {
+
         const string INTERNAL_CMD_HANDLER_NAME = "internalCmdHadler";
         public static void WindsorDependencyHolder(this IWindsorContainer container)
         {
+            var eventhandlerlistextentname = new int();
+            var eventhandlerlist = new List<(Type, Type)>()
+            {new (typeof(IDomainEventHandler<OrderCreated>),typeof(DomainEventHandler)),
+            new (typeof(IDomainEventHandler<OrdersMatched>),typeof(DomainEventHandler)) };
+
+            foreach (var item in eventhandlerlist)
+            {
+
+                container.Register(Component.For(item.Item1).Named(item.Item1.ToString() + Interlocked.Increment(ref eventhandlerlistextentname)).ImplementedBy(item.Item2).LifeStyle.ScopedToNetServiceScope());
+            }
+
+
+
             foreach (var item in new Dictionary<Type, (Type, Type)> {
                 {
                     typeof(ICommandHandler<AddOrderCommand>),
@@ -69,6 +83,8 @@ namespace Infrastructure
                 "MultipleActiveResultSets=False;Encrypt=False;" +
                 "TrustServerCertificate=False;Connection Timeout=30;"))
                 .LifeStyle.ScopedToNetServiceScope().Forward<ITransactionService>());
+
+
         }
         public static IServiceCollection DependencyHolder(this IServiceCollection services)
         {
@@ -85,7 +101,8 @@ namespace Infrastructure
             services.AddScoped<ITradeQueryRespository, TradeQueryRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IStockMarketFactory, StockMarketFactory>();
-            services.AddScoped<IDomainEventHandler<OrderCreated>, DomainEventHandler>();
+            //services.AddScoped<IDomainEventHandler<OrderCreated>, DomainEventHandler>();
+            //services.AddScoped<IDomainEventHandler<OrdersMatched>, DomainEventHandler>();
             services.AddScoped<IDispatcher, GenericDispatcher>();
             services.AddScoped<IServiceFactory, ServiceFactory>();
             return services;

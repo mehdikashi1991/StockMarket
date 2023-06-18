@@ -1,5 +1,6 @@
 ﻿
 
+using Domain.Events;
 using Framework.Contracts.Common;
 
 namespace Domain.Trades.Entities
@@ -14,6 +15,20 @@ namespace Domain.Trades.Entities
             SellOrderId = sellOrderId;
             Amount = amount;
             Price = price;
+        }
+        internal Trade(long id, long buyOrderId, long sellOrderId, int amount, int price, bool isNewTrade = false)
+        {
+            Id = id;
+            // OwnerId = ownerId;
+            BuyOrderId = buyOrderId;
+            SellOrderId = sellOrderId;
+            Amount = amount;
+            Price = price;
+
+            if (isNewTrade)
+            {
+                AddDomainEvent(new OrdersMatched(this));
+            }
         }
         public override long Id { get; }
         //public int OwnerId { get;  }

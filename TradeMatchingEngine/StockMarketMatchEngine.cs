@@ -218,7 +218,8 @@ namespace Domain
                     buyOrderId: order.Side == Side.Buy ? order.Id : otherSideOrder.Id,
                     sellOrderId: order.Side == Side.Sell ? order.Id : otherSideOrder.Id,
                     amount: amount,
-                    price: order.Side == Side.Sell ? order.Price : otherSideOrder.Price
+                    price: order.Side == Side.Sell ? order.Price : otherSideOrder.Price,
+                    isNewTrade: true
                     );
 
                 int currentOrderAmount = order.Amount;

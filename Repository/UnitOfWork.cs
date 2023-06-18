@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace Infrastructure
 {
-    public class UnitOfWork : IUnitOfWork, IDisposable
+    public class UnitOfWork : IUnitOfWork, IDisposable, IAsyncDisposable
     {
         private readonly TradeMatchingEngineContext tradeMatchingEngineContext;
         private readonly ITransactionService transactionService;
@@ -23,7 +23,7 @@ namespace Infrastructure
 
         public async Task<ITransactionService> BeginTransactionAsync()
         {
-            await tran.BeginTransactionAsync();
+            await tran.BeginTransactionAsync().ConfigureAwait(false);
             tradeMatchingEngineContext.Database.UseTransaction(tran.Transaction);
             return transactionService;
         }
@@ -35,7 +35,7 @@ namespace Infrastructure
 
         public async ValueTask DisposeAsync()
         {
-            await tradeMatchingEngineContext.DisposeAsync();
+            await tradeMatchingEngineContext.DisposeAsync().ConfigureAwait(false);
         }
 
         public IEnumerable<IAggegateRoot> GetModifiedAggregateRoots()
@@ -46,7 +46,7 @@ namespace Infrastructure
 
         public async Task<int> SaveChange()
         {
-            var result = await tradeMatchingEngineContext.SaveChangesAsync();
+            var result = await tradeMatchingEngineContext.SaveChangesAsync().ConfigureAwait(false);
             return result;
         }
     }

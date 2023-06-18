@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Domain;
+﻿using Application.Contract.Commands;
 using Controllers;
-using Application.Contract.Commands;
-using Facade.Contract;
 using Controllers.Model;
+using Facade.Contract;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EndPoints.Controller
 {
@@ -13,7 +12,7 @@ namespace EndPoints.Controller
     {
 
         private readonly IOrderCommandFacade orderFacade;
-        private readonly IOrderQueryFacade _orderQueryFacade;   
+        private readonly IOrderQueryFacade _orderQueryFacade;
 
         public OrdersController
             (
@@ -49,7 +48,7 @@ namespace EndPoints.Controller
                 "Orders",
                 null,
                OutputGenerator.ProcessOrderLink(
-                   await orderFacade.ProcessOrder(command)));
+                   await orderFacade.ProcessOrder(command).ConfigureAwait(false)));
         }
 
         /// <summary>
@@ -69,7 +68,7 @@ namespace EndPoints.Controller
                 ExpDate = modifieOrderVM.ExpDate,
             };
 
-            var result = await orderFacade.ModifyOrder(modifieCommand);
+            var result = await orderFacade.ModifyOrder(modifieCommand).ConfigureAwait(false);
 
             if (result != null)
             {
@@ -92,7 +91,7 @@ namespace EndPoints.Controller
         {
             try
             {
-                var result = await orderFacade.CancelOrder(command);
+                var result = await orderFacade.CancelOrder(command).ConfigureAwait(false);
 
                 if (result != null)
                 {
@@ -136,7 +135,7 @@ namespace EndPoints.Controller
         [HttpGet("{orderId}")]
         public async Task<IActionResult> GetOrder(long orderId)
         {
-            var result = await _orderQueryFacade.Get(orderId);
+            var result = await _orderQueryFacade.Get(orderId).ConfigureAwait(false);
             return AcceptedAtAction("GetOrder", "Orders", OutputGenerator.GetOrderLink(result));
         }
     }

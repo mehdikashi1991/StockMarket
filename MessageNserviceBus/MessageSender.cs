@@ -12,7 +12,7 @@ namespace MessageNserviceBus
         }
         public async Task SendMessageAsync(object obj)
         {
-            await message.Send(obj);
+            await message.Send(obj).ConfigureAwait(false);
         }
     }
 }

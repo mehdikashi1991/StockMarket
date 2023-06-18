@@ -15,7 +15,7 @@ namespace FacadeProvider.OrderFacadeProviders
         }
         public async Task<IOrder> Get(long id)
         {
-            return await orderQuery.Get(o => o.Id == id);
+            return await orderQuery.Get(o => o.Id == id).ConfigureAwait(false);
         }
 
         //public async Task<PageResult<Order>> GetAllWithPaging(int page, int pageSize, int currentPage = 1, long lastId = 0)

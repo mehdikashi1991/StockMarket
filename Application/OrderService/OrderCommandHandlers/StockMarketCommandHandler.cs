@@ -26,8 +26,8 @@ namespace Application.OrderService.OrderCommandHandlers
         }
         public async Task<ProcessedOrder?> Handle(T1 command)
         {
-            _stockMarketMatchEngine = await _stockMarketFactory.GetStockMarket(_orderQuery, _tradeQuery);
-            return await SpecificHandle(command);
+            _stockMarketMatchEngine = await _stockMarketFactory.GetStockMarket(_orderQuery, _tradeQuery).ConfigureAwait(false);
+            return await SpecificHandle(command).ConfigureAwait(false);
         }
         protected abstract Task<ProcessedOrder?> SpecificHandle(T1 command);
 

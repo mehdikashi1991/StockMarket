@@ -2,11 +2,6 @@
 using Application.Contract.Commands;
 using Domain;
 using Facade.Contract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FacadeProvider.OrderFacadeProviders
 {
@@ -30,24 +25,24 @@ namespace FacadeProvider.OrderFacadeProviders
 
         public async Task<ProcessedOrder> CancelAllOrders(object obj)
         {
-            return await cancelAllOrderCommandHandler.Handle(null);
+            return await cancelAllOrderCommandHandler.Handle(null).ConfigureAwait(false);
 
         }
 
         public async Task<ProcessedOrder> CancelOrder(CancelOrderCommand command)
         {
-            return await cancelOrderCommandHandlers.Handle(command);
+            return await cancelOrderCommandHandlers.Handle(command).ConfigureAwait(false);
         }
 
 
         public async Task<ProcessedOrder> ModifyOrder(ModifieOrderCommand orderCommand)
         {
-            return await modifyOrderCommandHandlers.Handle(orderCommand);
+            return await modifyOrderCommandHandlers.Handle(orderCommand).ConfigureAwait(false);
         }
 
         public async Task<ProcessedOrder> ProcessOrder(AddOrderCommand orderCommand)
         {
-            return await addOrderCommandHandlers.Handle(orderCommand);
+            return await addOrderCommandHandlers.Handle(orderCommand).ConfigureAwait(false);
         }
     }
 }

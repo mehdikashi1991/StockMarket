@@ -30,18 +30,18 @@ namespace Application.OrderService.OrderCommandHandlers
             await unitOfWork.DisposeAsync();
 
             if (transactionService != null)
-                await transactionService.DisposeAsync();
+                await transactionService.DisposeAsync().ConfigureAwait(false);
 
         }
 
         public async Task<ProcessedOrder?> Handle(T1 command)
         {
-            await beginTransaction();
+            await beginTransaction().ConfigureAwait(false);
 
-            var result = await handler.Handle(command);
+            var result = await handler.Handle(command).ConfigureAwait(false);
 
             var aggregateRoots = unitOfWork.GetModifiedAggregateRoots();
-            await unitOfWork.SaveChange();
+            await unitOfWork.SaveChange().ConfigureAwait(false);
 
             foreach (var aggregateRoot in aggregateRoots)
             {
@@ -52,7 +52,7 @@ namespace Application.OrderService.OrderCommandHandlers
                     aggregateRoot.RemoveDomainEvent(domainEvent);
                 }
             }
-            await commitTransaction();
+            await commitTransaction().ConfigureAwait(false);
             return result;
         }
 
@@ -60,7 +60,7 @@ namespace Application.OrderService.OrderCommandHandlers
         {
             Interlocked.Decrement(ref counter);
             if (counter == 0)
-                await transactionService.CommitAsync();
+                await transactionService.CommitAsync().ConfigureAwait(false);
         }
 
         private async Task<ITransactionService> beginTransaction()
@@ -69,9 +69,9 @@ namespace Application.OrderService.OrderCommandHandlers
             if (transactionService != null) return transactionService;
 
             var lockObj = new SemaphoreSlim(1);
-            await lockObj.WaitAsync();
+            await lockObj.WaitAsync().ConfigureAwait(false);
             if (transactionService != null) return transactionService;
-            transactionService = await unitOfWork.BeginTransactionAsync();
+            transactionService = await unitOfWork.BeginTransactionAsync().ConfigureAwait(false);
             return transactionService;
         }
 

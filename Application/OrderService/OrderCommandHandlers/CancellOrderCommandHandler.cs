@@ -10,11 +10,11 @@ using Framework.Contracts.UnitOfWork;
 
 namespace Application.OrderService.OrderCommandHandlers
 {
-    public class CancellOrderCommandHandler : StockMarketCommandHandler<CancelOrderCommand>,ICommandHandler<CancelOrderCommand>
+    public class CancellOrderCommandHandler : StockMarketCommandHandler<CancelOrderCommand>, ICommandHandler<CancelOrderCommand>
     {
-        public CancellOrderCommandHandler(IUnitOfWork unitOfWork, IStockMarketFactory stockMarketFactory, 
-            IOrderCommandRepository orderCommandRepository, 
-            IOrderQueryRepository orderQueryRepository, 
+        public CancellOrderCommandHandler(IUnitOfWork unitOfWork, IStockMarketFactory stockMarketFactory,
+            IOrderCommandRepository orderCommandRepository,
+            IOrderQueryRepository orderQueryRepository,
             ITradeCommandRepository tradeCommandRepository,
             ITradeQueryRespository tradeQueryRespository) : base(stockMarketFactory, orderCommandRepository, orderQueryRepository, tradeCommandRepository, tradeQueryRespository)
         {
@@ -22,11 +22,11 @@ namespace Application.OrderService.OrderCommandHandlers
 
         protected async override Task<ProcessedOrder> SpecificHandle(CancelOrderCommand command)
         {
-            var result = await this._stockMarketMatchEngine.CancelOrderAsync(command.Id);
+            var result = await this._stockMarketMatchEngine.CancelOrderAsync(command.Id).ConfigureAwait(false);
 
             foreach (var order in result.ModifiedOrders)
             {
-                var findOrder = await this._orderCommandRepository.Find(order.Id);
+                var findOrder = await this._orderCommandRepository.Find(order.Id).ConfigureAwait(false);
                 findOrder.UpdateBy(order);
             }
 

@@ -22,7 +22,7 @@ namespace Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("TradeMatchingEngine.Order", b =>
+            modelBuilder.Entity("Domain.Orders.Entities.Order", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint");
@@ -56,7 +56,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("TradeMatchingEngine.Trade", b =>
+            modelBuilder.Entity("Domain.Trades.Entities.Trade", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint");
@@ -82,15 +82,15 @@ namespace Infrastructure.Migrations
                     b.ToTable("Trades");
                 });
 
-            modelBuilder.Entity("TradeMatchingEngine.Trade", b =>
+            modelBuilder.Entity("Domain.Trades.Entities.Trade", b =>
                 {
-                    b.HasOne("TradeMatchingEngine.Order", null)
+                    b.HasOne("Domain.Orders.Entities.Order", null)
                         .WithMany()
                         .HasForeignKey("BuyOrderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("TradeMatchingEngine.Order", null)
+                    b.HasOne("Domain.Orders.Entities.Order", null)
                         .WithMany()
                         .HasForeignKey("SellOrderId")
                         .OnDelete(DeleteBehavior.Restrict)

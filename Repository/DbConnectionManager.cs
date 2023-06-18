@@ -18,10 +18,11 @@ namespace Infrastructure
         public async Task<ITransactionService> BeginTransactionAsync()
         {
             if (Transaction != null) return this;
+
             using var lockObj = new SemaphoreSlim(1);
-            await lockObj.WaitAsync();
+            await lockObj.WaitAsync().ConfigureAwait(false);
             if (Transaction != null) return this;
-            Transaction = await connection.BeginTransactionAsync();
+            Transaction = await connection.BeginTransactionAsync().ConfigureAwait(false);
             return this;
         }
 
@@ -37,18 +38,27 @@ namespace Infrastructure
 
         public async ValueTask DisposeAsync()
         {
-            await Transaction.DisposeAsync();
-            await connection.CloseAsync();
-            await connection.DisposeAsync();
+
+
+            await Transaction.DisposeAsync().ConfigureAwait(false);
+
+            await connection.CloseAsync().ConfigureAwait(false);
+
+            await connection.DisposeAsync().ConfigureAwait(false);
+
+
+
         }
 
         public async Task<DbConnection> GetConnectionAsync()
         {
             if (connection.State == ConnectionState.Open) return connection;
+
             using var lockObj = new SemaphoreSlim(1);
-            await lockObj.WaitAsync();
+            await lockObj.WaitAsync().ConfigureAwait(false);
+
             if (connection.State == ConnectionState.Open) return connection;
-            await connection.OpenAsync();
+            await connection.OpenAsync().ConfigureAwait(false);
             return connection;
         }
 

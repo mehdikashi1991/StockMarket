@@ -54,9 +54,11 @@ namespace Infrastructure
                 var c = t.Name;
 
                 container.Register(
-                    Component.For(item.Key).ImplementedBy(item.Value.Item1).Named(INTERNAL_CMD_HANDLER_NAME + item.Value.Item1.Name).LifeStyle.ScopedToNetServiceScope()
+                    Component.For(item.Key).ImplementedBy(item.Value.Item1).Named(INTERNAL_CMD_HANDLER_NAME + item.Value.Item1.Name)
+                    .LifeStyle.ScopedToNetServiceScope()
                    , Component.For(item.Key).ImplementedBy(t)
-                    .DependsOn(Dependency.OnComponent(item.Key, INTERNAL_CMD_HANDLER_NAME + item.Value.Item1.Name)).LifeStyle.ScopedToNetServiceScope().IsDefault()
+                    .DependsOn(Dependency.OnComponent(item.Key, INTERNAL_CMD_HANDLER_NAME + item.Value.Item1.Name))
+                    .LifeStyle.ScopedToNetServiceScope().IsDefault()
                     );
             }
             container.Register(
@@ -73,9 +75,9 @@ namespace Infrastructure
 
             services.AddDbContextFactory<TradeMatchingEngineContext>((sp, ob) =>
             {
-                ob.UseSqlServer(sp.GetRequiredService<IDbConnectionService>().GetConnectionAsync().GetAwaiter().GetResult());
+                ob.UseSqlServer(sp.GetRequiredService<IDbConnectionService>().GetConnectionAsync().ConfigureAwait(false).GetAwaiter().GetResult());
                 //options.UseSqlServer("Server=.;Initial Catalog=TradeMatchingEngine;Integrated Security=true;Persist Security Info=False;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Connection Timeout=30;");
-            });
+            }, ServiceLifetime.Scoped);
 
             services.AddScoped<IOrderCommandRepository, OrderCommandRepository>();
             services.AddScoped<ITradeCommandRepository, TradeCommandRepository>();

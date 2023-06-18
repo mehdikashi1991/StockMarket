@@ -1,13 +1,7 @@
-﻿using Domain;
-using Domain.Contract.Trades.Repository.Query;
+﻿using Domain.Contract.Trades.Repository.Query;
 using Domain.Trades.Entities;
 using Facade.Contract;
 using Framework.Contracts.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FacadeProvider.TradeFacadeProvider
 {
@@ -21,12 +15,12 @@ namespace FacadeProvider.TradeFacadeProvider
         }
         public async Task<IEnumerable<ITrade>> GetAllTrades()
         {
-            return await tradeQuery.GetAll();
+            return await tradeQuery.GetAll().ConfigureAwait(false);
         }
 
         public async Task<PageResult<Trade>> GetAllTradesWithPaging(int page, int pageSize, int currentPage, long lastId)
         {
-            return await tradeQuery.GetPaging(page, pageSize, currentPage, lastId);
+            return await tradeQuery.GetPaging(page, pageSize, currentPage, lastId).ConfigureAwait(false);
         }
 
         public async Task<ITrade> GetTrade(long id)

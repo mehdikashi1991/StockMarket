@@ -15,8 +15,8 @@ namespace Infrastructure.Test
         {
             this.testOutput = testOutput;
             var optionsBuilder = new DbContextOptionsBuilder<TradeMatchingEngineContext>();
-            optionsBuilder.UseSqlServer("Server=.;Initial Catalog=TradeMatchingEngineDb;Integrated Security=true;Persist Security Info=False;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Connection Timeout=30;");
-            optionsBuilder.LogTo(data=>testOutput.WriteLine(data));
+            optionsBuilder.UseSqlServer("Server=.;Initial Catalog=TradeMatchingEngine;Integrated Security=true;Persist Security Info=False;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Connection Timeout=30;");
+            optionsBuilder.LogTo(data => testOutput.WriteLine(data));
             dbContext = new TradeMatchingEngineContext(optionsBuilder.Options);
         }
 

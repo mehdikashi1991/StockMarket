@@ -26,14 +26,14 @@ namespace Application.OrderService.OrderCommandHandlers
         }
         protected async override Task<ProcessedOrder> SpecificHandle(AddOrderCommand? command)
         {
-            var result = await _stockMarketMatchEngine.ProcessOrderAsync(command.Price, command.Amount, command.Side, command.ExpDate, command.IsFillAndKill, command.orderParentId);
+            var result = await _stockMarketMatchEngine.ProcessOrderAsync(command.Price, command.Amount, command.Side, command.ExpDate, command.IsFillAndKill, command.orderParentId).ConfigureAwait(false);
 
-            await _orderCommandRepository.Add(result.Order);
+            await _orderCommandRepository.Add(result.Order).ConfigureAwait(false);
 
 
             foreach (var order in result.ModifiedOrders)
             {
-                var findOrder = await _orderCommandRepository.Find(order.Id);
+                var findOrder = await _orderCommandRepository.Find(order.Id).ConfigureAwait(false);
                 findOrder.UpdateBy(order);
 
 
@@ -41,7 +41,7 @@ namespace Application.OrderService.OrderCommandHandlers
 
             foreach (var trade in result.CreatedTrades)
             {
-                await _tradeCommandRepository.Add(trade);
+                await _tradeCommandRepository.Add(trade).ConfigureAwait(false);
             }
 
             var processedOrder = new ProcessedOrder() { OrderId = result.Order == null ? 0 : result.Order.Id, Trades = result.CreatedTrades };

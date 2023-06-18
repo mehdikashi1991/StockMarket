@@ -26,7 +26,7 @@ namespace MessageFacadeProvider
 
             };
 
-            await messageService.SendMessageAsync(message);
+            await messageService.SendMessageAsync(message).ConfigureAwait(false);
 
             return new ProcessedOrder();
         }
@@ -34,7 +34,7 @@ namespace MessageFacadeProvider
         public async Task<ProcessedOrder> CancelAllOrders(object obj)
         {
             var message = new CancelAllOrderCommandMessage();
-            await messageService.SendMessageAsync(message);
+            await messageService.SendMessageAsync(message).ConfigureAwait(false);
 
             return new ProcessedOrder();
         }
@@ -45,7 +45,7 @@ namespace MessageFacadeProvider
         {
             var message = new CancelOrderCommandMessage() { Id = command.Id };
 
-            await messageService.SendMessageAsync(message);
+            await messageService.SendMessageAsync(message).ConfigureAwait(false);
             return new ProcessedOrder();
         }
 
@@ -68,7 +68,7 @@ namespace MessageFacadeProvider
                 ExpDate = orderCommand.ExpDate,
                 Price = orderCommand.Price
             };
-            await messageService.SendMessageAsync(message);
+            await messageService.SendMessageAsync(message).ConfigureAwait(false);
             return new ProcessedOrder();
         }
 

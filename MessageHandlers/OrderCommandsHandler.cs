@@ -38,7 +38,7 @@ namespace MessageHandlers
                 IsFillAndKill = (bool)message.IsFillAndKill,
             };
 
-            var result = await orderFacade.ProcessOrder(command);
+            var result = await orderFacade.ProcessOrder(command).ConfigureAwait(false);
 
         }
 
@@ -52,7 +52,7 @@ namespace MessageHandlers
                 ExpDate = message.ExpDate
             };
 
-            var result = await orderFacade.ModifyOrder(command);
+            var result = await orderFacade.ModifyOrder(command).ConfigureAwait(false);
 
 
         }
@@ -62,7 +62,7 @@ namespace MessageHandlers
 
             var command = new CancelOrderCommand() { Id = message.Id };
 
-            var result = await orderFacade.CancelOrder(command);
+            var result = await orderFacade.CancelOrder(command).ConfigureAwait(false);
 
 
         }
@@ -70,7 +70,7 @@ namespace MessageHandlers
         public async Task Handle(CancelAllOrderCommandMessage message, IMessageHandlerContext context)
         {
             var command = new CancelAllOrderCommand() { };
-            var result = await orderFacade.CancelAllOrders(command);
+            var result = await orderFacade.CancelAllOrders(command).ConfigureAwait(false);
         }
     }
 }

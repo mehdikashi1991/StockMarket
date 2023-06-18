@@ -131,17 +131,17 @@ namespace Domain
 
             public override async Task<IStockMarketMatchingEngineProcessContext> ProcessOrderAsync(int price, int amount, Side side, DateTime? expireTime = null, bool? fillAndKill = null, long? orderParentId = null)
             {
-                return await StockMarketMatchEngineProxy.myProcessOrderAsync(price, amount, side, expireTime, fillAndKill, orderParentId);
+                return await StockMarketMatchEngineProxy.myProcessOrderAsync(price, amount, side, expireTime, fillAndKill, orderParentId).ConfigureAwait(false);
             }
 
             public override async Task<IStockMarketMatchingEngineProcessContext> CancelOrderAsync(long orderId)
             {
-                return await StockMarketMatchEngineProxy.myCancelOrderAsync(orderId);
+                return await StockMarketMatchEngineProxy.myCancelOrderAsync(orderId).ConfigureAwait(false);
             }
 
             public override async Task<IStockMarketMatchingEngineProcessContext> ModifieOrder(long orderId, int price, int amount, DateTime? expirationDate)
             {
-                return await StockMarketMatchEngineProxy.myModifieOrder(orderId, price, amount, expirationDate);
+                return await StockMarketMatchEngineProxy.myModifieOrder(orderId, price, amount, expirationDate).ConfigureAwait(false);
             }
         }
         class PreOpened : StockMarketState
@@ -163,17 +163,17 @@ namespace Domain
 
             public async override Task<IStockMarketMatchingEngineProcessContext> ProcessOrderAsync(int price, int amount, Side side, DateTime? expireTime = null, bool? fillAndKill = null, long? orderParentId = null)
             {
-                return  StockMarketMatchEngineProxy.preProcessOrderAsync(price, amount, side, expireTime, fillAndKill);
+                return StockMarketMatchEngineProxy.preProcessOrderAsync(price, amount, side, expireTime, fillAndKill);
             }
 
             public override async Task<IStockMarketMatchingEngineProcessContext> CancelOrderAsync(long orderId)
             {
-                return await StockMarketMatchEngineProxy.CancelOrderAsync(orderId);
+                return await StockMarketMatchEngineProxy.CancelOrderAsync(orderId).ConfigureAwait(false);
             }
 
             public override async Task<IStockMarketMatchingEngineProcessContext> ModifieOrder(long orderId, int price, int amount, DateTime? expirationDate)
             {
-                return await StockMarketMatchEngineProxy.preModifieOrder(orderId, price, amount, expirationDate);
+                return await StockMarketMatchEngineProxy.preModifieOrder(orderId, price, amount, expirationDate).ConfigureAwait(false);
             }
         }
     }

@@ -14,17 +14,17 @@ namespace Application.OrderService.OrderCommandHandlers
 
     public class CancellAllOrdersCommandHandler : StockMarketCommandHandler<CancelAllOrderCommand>, ICommandHandler<CancelAllOrderCommand>
     {
-        public CancellAllOrdersCommandHandler(IUnitOfWork unitOfWork, IStockMarketFactory stockMarketFactory, 
+        public CancellAllOrdersCommandHandler(IUnitOfWork unitOfWork, IStockMarketFactory stockMarketFactory,
             IOrderCommandRepository orderCommandRepository,
             IOrderQueryRepository orderQueryRepository,
-            ITradeCommandRepository tradeCommandRepository, 
+            ITradeCommandRepository tradeCommandRepository,
             ITradeQueryRespository tradeQueryRespository) : base(stockMarketFactory, orderCommandRepository, orderQueryRepository, tradeCommandRepository, tradeQueryRespository)
         {
         }
 
         protected async override Task<ProcessedOrder> SpecificHandle(CancelAllOrderCommand command)
         {
-            var allOrders = await _orderQuery.GetAll(x => x.Amount != 0 && x.OrderState != OrderStates.Cancell);
+            var allOrders = await _orderQuery.GetAll(x => x.Amount != 0 && x.OrderState != OrderStates.Cancell).ConfigureAwait(false);
 
             IStockMarketMatchingEngineProcessContext processedOrder;
 
@@ -32,11 +32,11 @@ namespace Application.OrderService.OrderCommandHandlers
 
             foreach (var item in allOrders)
             {
-                processedOrder = await this._stockMarketMatchEngine.CancelOrderAsync(item.Id);
+                processedOrder = await this._stockMarketMatchEngine.CancelOrderAsync(item.Id).ConfigureAwait(false);
 
                 foreach (var order in processedOrder.ModifiedOrders)
                 {
-                    var findOrder = await this._orderCommandRepository.Find(order.Id);
+                    var findOrder = await this._orderCommandRepository.Find(order.Id).ConfigureAwait(false);
                     findOrder.UpdateBy(order);
                     orderIdList.Add(order.Id);
                 }

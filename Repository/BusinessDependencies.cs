@@ -22,6 +22,7 @@ using Infrastructure.Trades.CommandRepositories;
 using Infrastructure.Trades.QueryRepositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace Infrastructure
 {
@@ -31,15 +32,21 @@ namespace Infrastructure
         const string INTERNAL_CMD_HANDLER_NAME = "internalCmdHadler";
         public static void WindsorDependencyHolder(this IWindsorContainer container)
         {
-            var eventhandlerlistextentname = new int();
-            var eventhandlerlist = new List<(Type, Type)>()
-            {new (typeof(IDomainEventHandler<OrderCreated>),typeof(DomainEventHandler)),
-            new (typeof(IDomainEventHandler<OrdersMatched>),typeof(DomainEventHandler)) };
+            int eventhandlername = new();
+            var eventhandlerslist = new List<Type>();
+            eventhandlerslist.Add(typeof(IDomainEventHandler<OrderCreated>));
+            eventhandlerslist.Add(typeof(IDomainEventHandler<OrdersMatched>));
 
-            foreach (var item in eventhandlerlist)
+
+
+            foreach (var item in eventhandlerslist)
             {
 
-                container.Register(Component.For(item.Item1).Named(item.Item1.ToString() + Interlocked.Increment(ref eventhandlerlistextentname)).ImplementedBy(item.Item2).LifeStyle.ScopedToNetServiceScope());
+                container.Register(
+                    Component.For(item).ImplementedBy<DomainEventHandler>()
+                    .Named(Assembly.CreateQualifiedName(item.FullName, Interlocked.Increment(ref eventhandlername).ToString())
+                    ).LifeStyle.ScopedToNetServiceScope());
+
             }
 
 

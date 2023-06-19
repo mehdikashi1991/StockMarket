@@ -32,21 +32,17 @@ namespace Infrastructure
         const string INTERNAL_CMD_HANDLER_NAME = "internalCmdHadler";
         public static void WindsorDependencyHolder(this IWindsorContainer container)
         {
-            int eventhandlername = new();
+            int eventhandlername = 1;
             var eventhandlerslist = new List<Type>();
             eventhandlerslist.Add(typeof(IDomainEventHandler<OrderCreated>));
             eventhandlerslist.Add(typeof(IDomainEventHandler<OrdersMatched>));
 
-
-
             foreach (var item in eventhandlerslist)
             {
-
                 container.Register(
                     Component.For(item).ImplementedBy<DomainEventHandler>()
-                    .Named(Assembly.CreateQualifiedName(item.FullName, Interlocked.Increment(ref eventhandlername).ToString())
-                    ).LifeStyle.ScopedToNetServiceScope());
-
+                    .Named(Assembly.CreateQualifiedName(item.FullName, Interlocked.Increment(ref eventhandlername).ToString()))
+                    .LifeStyle.ScopedToNetServiceScope());
             }
 
 
@@ -108,8 +104,7 @@ namespace Infrastructure
             services.AddScoped<ITradeQueryRespository, TradeQueryRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IStockMarketFactory, StockMarketFactory>();
-            //services.AddScoped<IDomainEventHandler<OrderCreated>, DomainEventHandler>();
-            //services.AddScoped<IDomainEventHandler<OrdersMatched>, DomainEventHandler>();
+            //services.AddScoped<IDomainEventHandler<OrderCreated>, DomainEventHandler>();            
             services.AddScoped<IDispatcher, GenericDispatcher>();
             services.AddScoped<IServiceFactory, ServiceFactory>();
             return services;
